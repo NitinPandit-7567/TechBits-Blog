@@ -20,11 +20,10 @@ module.exports.login = wrapAsync(async (req, res, next) => {
         const token = jwt.sign({ token: validation.username }, process.env.TOKEN_SECRET, { expiresIn: '5h' });
         req.session.token = token;
         req.session.user_id = validation._id
-        console.log('Token: ', token)
         res.json({ username: validation.username, email: validation.email, name: validation.name.full })
     }
     else {
-        return next(new AppError({ status: 401, message: 'Invalid Credentials' }))
+        return next(new AppError(401, 'Invalid Credentials'))
     }
 })
 

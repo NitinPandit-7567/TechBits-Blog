@@ -17,11 +17,14 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
-
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}))
 app.use('/', userRouter)
 
 app.use((err, req, res, next) => {
     const { status = 505, message = 'Internal server error' } = err;
-    res.json({ status, message })
+    res.json({ error: { status, message } })
 })
 app.listen(3000, () => { console.log('Listening on port 3000...'); })
