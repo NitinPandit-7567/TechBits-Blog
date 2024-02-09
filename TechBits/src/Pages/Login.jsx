@@ -1,21 +1,23 @@
 import { useState } from 'react'
-import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material/';
-import LockIcon from '@mui/icons-material/Lock';
+import { TextField, Button, Alert } from '@mui/material';
+import { Lock, VpnKey } from '@mui/icons-material';
 import { setData } from '../utils/UserData'
-import Alert from '@mui/material/Alert';
 import PasswordInput from '../Components/PasswordInput';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import { useNavigate } from 'react-router-dom'
 import '../styles/login.css'
+
 export default function Login({ setIsLoggedIn }) {
     const [formData, setFormData] = useState({ username: '', password: '' })
     const [validationError, setValidationError] = useState(false)
+    const navigate = useNavigate()
     const helperText = 'Incorrect Username/Password';
+
     function handleFormChange(evt) {
         const field = evt.target.id
         const value = evt.target.value;
         setFormData(currentData => { return { ...formData, [field]: value } })
     }
+
     async function handleSubmit(e) {
         e.preventDefault();
         const loginResponse = await fetch('http://localhost:3000/login', {
@@ -39,13 +41,14 @@ export default function Login({ setIsLoggedIn }) {
                 sessionStorage.setItem('isLoggedIn', true);
                 return true;
             })
+            return navigate('/')
         }
     }
 
     return (
         <>
             <div className="login">
-                <LockIcon color="primary" fontSize="large" />
+                <Lock color="primary" fontSize="large" />
                 <h1>Sign In</h1>
                 {validationError && <><Alert severity="error">Invalid Username/Password.</Alert> <br /></>}
                 <form onSubmit={handleSubmit}>
@@ -55,7 +58,7 @@ export default function Login({ setIsLoggedIn }) {
                     <PasswordInput id="password" label="Password" value={formData.password} placeholder='Password' helperText={helperText} validationError={validationError} handleFormChange={handleFormChange} />
                     <br />
                     <br />
-                    <Button variant="contained" fullWidth type='Submit'><VpnKeyIcon fontSize='small' sx={{ marginRight: '5px' }} />SIGN IN</Button>
+                    <Button variant="contained" fullWidth type='Submit'><VpnKey fontSize='small' sx={{ marginRight: '5px' }} />SIGN IN</Button>
                     <p>Dont have an account? <a href='/SignUp'>SignUp!</a></p>
                 </form>
             </div></>)

@@ -11,16 +11,19 @@ import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import { clearData } from '../utils/UserData'
 import { useState } from 'react'
+import { redirect } from "react-router-dom";
 import '../styles/navbar.css'
 export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
-    const location = window.location.pathname.split('/')[1];
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const location = window.location.pathname.split('/')[1];
     const AuthButtonsCheck = ((location !== 'Login' && location !== 'SignUp') && !isLoggedIn);
     const theme = mode[0].toUpperCase() + mode.slice(1,) + ' Mode ';
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = (evt) => {
         setAnchorEl(null);
         if (evt.target.id === 'logout') {
@@ -28,17 +31,20 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
                 setIsLoggedIn(login => {
                     clearData();
                     sessionStorage.removeItem('isLoggedIn')
-                    return false
+                    return false;
                 })
+                return redirect('/');
             }
         }
     };
+
     function handleCollapse(evt) {
         const menuLinks = document.querySelector('.navlinks')
         const menuButtons = document.querySelector('.navButtons')
         menuLinks.classList.toggle('collapse')
         menuButtons.classList.toggle('collapse')
     }
+
     function getInitials() {
         if (isLoggedIn) {
             const user = JSON.parse(sessionStorage.getItem('user'))
@@ -49,11 +55,13 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
             return 'U'
         }
     }
+
     function handleTheme() {
         const switchMode = mode === 'light' ? 'dark' : 'light'
         setMode((currentMode) => { return switchMode });
         return localStorage.setItem('theme', switchMode)
     }
+
     return (
         <div className="navbar" >
             <div className="logo">
@@ -64,7 +72,7 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
             </div>
             <div className="navlinks">
                 <Button href="#text-buttons">Home</Button>
-                <Button href="#text-buttons">My Blogs</Button>
+                {isLoggedIn && <Button href="#text-buttons">My Blogs</Button>}
                 <Button href="#text-buttons">All Blogs</Button>
                 <Button href="#text-buttons">About</Button>
             </div>

@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SignUp from "./Pages/SignUp";
-import Login from "./Pages/login";
-import Navbar from "./Components/Navbar";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useState } from 'react'
+import SignUp from "./Pages/SignUp";
+import Login from "./Pages/login";
+import Navbar from "./Components/Navbar";
+import Home from "./Pages/Home";
 import './App.css'
 
 export default function App() {
@@ -16,6 +17,10 @@ export default function App() {
         },
     });
     const router = createBrowserRouter([
+        {
+            path: '/',
+            element: <Home />
+        },
         {
             path: '/Login',
             element: <Login setIsLoggedIn={setIsLoggedIn} />
