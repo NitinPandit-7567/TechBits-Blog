@@ -38,6 +38,7 @@ export default function SignUp() {
         console.log(res)
         if (!res.error) {
             setData(res)
+            sessionStorage.setItem('isLoggedIn', true)
         }
     }
     return (

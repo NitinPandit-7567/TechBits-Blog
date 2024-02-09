@@ -8,13 +8,6 @@ h1 {
     margin-top: 2px;
 }
 
-.page {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
 .icon {
     display: inline;
 }

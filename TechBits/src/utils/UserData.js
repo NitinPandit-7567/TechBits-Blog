@@ -1,7 +1,8 @@
 export function setData(data) {
     console.log(data)
-    return sessionStorage.setItem('user', { username: data.username, name: data.name, email: data.email })
+    return sessionStorage.setItem('user', JSON.stringify({ username: data.username, name: data.name, email: data.email }))
 }
+
 
 export function getData() {
     const user = sessionStorage.getItem('user');
@@ -14,5 +15,5 @@ export function getData() {
 }
 
 export function clearData() {
-    return sessionStorage.setItem('user', 'false')
+    return sessionStorage.removeItem('user')
 }
