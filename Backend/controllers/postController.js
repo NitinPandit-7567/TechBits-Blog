@@ -4,7 +4,7 @@ const wrapAsync = require('../utils/wrapAsync');
 const AppError = require('../utils/AppError')
 
 module.exports.allPosts = wrapAsync(async (req, res, next) => {
-    const posts = await Posts.find({ status: 'published' });
+    const posts = await Posts.find({ status: 'published' }, { content: 0, comments: 0, updatedAt: 0, status: 0 }).populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } });
     if (posts) {
         return res.json(posts);
     } else {
