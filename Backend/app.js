@@ -5,6 +5,7 @@ const session = require('express-session')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const userRouter = require('./routes/userRouter')
+const postRouter = require('./routes/postRouter')
 dotenv.config()
 const app = express();
 const secret = process.env.TOKEN_SECRET
@@ -21,10 +22,11 @@ app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }))
+app.use('/posts', postRouter)
 app.use('/', userRouter)
 
 app.use((err, req, res, next) => {
-    const { status = 505, message = 'Internal server error' } = err;
+    const { status = 500, message = 'Internal server error' } = err;
     res.json({ error: { status, message } })
 })
 app.listen(3000, () => { console.log('Listening on port 3000...'); })
