@@ -6,11 +6,15 @@ import SignUp from "./Pages/SignUp";
 import Login from "./Pages/login";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
-import './App.css'
+import CreatePost from "./Pages/CreatePost";
+import EditPost from "./Pages/EditPost";
+import ViewPost from "./Pages/ViewPost";
+
+
 
 export default function App() {
     const [mode, setMode] = useState(localStorage.getItem('theme') !== null ? localStorage.getItem('theme') : 'light')
-    const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('isLoggedIn') === 'true' ? true : false)
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true' ? true : false)
     const theme = createTheme({
         palette: {
             mode: mode,
@@ -22,13 +26,25 @@ export default function App() {
             element: <Home />
         },
         {
-            path: '/Login',
+            path: '/login',
             element: <Login setIsLoggedIn={setIsLoggedIn} />
         },
 
         {
-            path: '/SignUp',
+            path: '/signUp',
             element: <SignUp setIsLoggedIn={setIsLoggedIn} />
+        },
+        {
+            path: '/create',
+            element: <CreatePost isLoggedIn={isLoggedIn} />
+        },
+        {
+            path: '/edit/:id',
+            element: <EditPost isLoggedIn={isLoggedIn} />
+        },
+        {
+            path: '/view/:id',
+            element: <ViewPost isLoggedIn={isLoggedIn} />
         }
 
     ])
@@ -36,9 +52,7 @@ export default function App() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Navbar setMode={setMode} mode={mode} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-            <div className="page">
-                <RouterProvider router={router} />
-            </div>
+            <RouterProvider router={router} />
         </ThemeProvider>
     </>)
 }
