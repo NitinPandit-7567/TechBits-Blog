@@ -6,6 +6,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const userRouter = require('./routes/userRouter')
 const postRouter = require('./routes/postRouter')
+const commentRouter = require('./routes/commentRouter')
 dotenv.config()
 const app = express();
 const secret = process.env.TOKEN_SECRET
@@ -22,6 +23,8 @@ app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }))
+
+app.use('/posts/:id/comments', commentRouter)
 app.use('/posts', postRouter)
 app.use('/', userRouter)
 

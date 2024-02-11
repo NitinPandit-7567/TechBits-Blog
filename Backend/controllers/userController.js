@@ -30,5 +30,5 @@ module.exports.login = wrapAsync(async (req, res, next) => {
 module.exports.logout = (req, res, next) => {
     req.session.token = null;
     req.session.user_id = null;
-    res.json({ message: 'Logged Out' })
+    res.json({ status: 200, message: 'Logged Out' })
 }

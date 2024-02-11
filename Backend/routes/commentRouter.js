@@ -1,0 +1,12 @@
+const express = require('express')
+const router = express.Router({ mergeParams: true })
+const isLoggedIn = require('../middlewares/isLoggedIn')
+const validateAuthor = require('../middlewares/validateAuthor')
+const commentController = require('../controllers/commentController')
+router.route('/new')
+    .post(isLoggedIn, commentController.newComment)
+router.route('/:c_id')
+    .delete(isLoggedIn, validateAuthor, commentController.deleteComment)
+router.route('/')
+    .get(commentController.getComments)
+module.exports = router
