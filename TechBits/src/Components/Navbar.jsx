@@ -1,17 +1,12 @@
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
+import { Button, Menu, MenuItem, IconButton, Avatar, Tooltip, Divider } from '@mui/material';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-import Tooltip from '@mui/material/Tooltip';
-import Divider from '@mui/material/Divider';
-import { clearData } from '../utils/UserData'
+import { handleLogout } from '../utils/handleLogout'
+import { getUserData } from '../utils/UserData';
+import getInitials from '../utils/getInitials';
 import { useState } from 'react'
-import { redirect } from "react-router-dom";
 import '../styles/navbar.css'
 export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -24,17 +19,10 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = (evt) => {
+    const handleClose = async (evt) => {
         setAnchorEl(null);
         if (evt.target.id === 'logout') {
-            if (isLoggedIn) {
-                setIsLoggedIn(login => {
-                    clearData();
-                    sessionStorage.removeItem('isLoggedIn')
-                    return false;
-                })
-                return redirect('/');
-            }
+            handleLogout(isLoggedIn, setIsLoggedIn)
         }
     };
 
@@ -45,20 +33,19 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
         menuButtons.classList.toggle('collapse')
     }
 
-    function getInitials() {
+    function getAvatarData() {
         if (isLoggedIn) {
-            const user = JSON.parse(sessionStorage.getItem('user'))
-            const fullName = (user.name).split(' ');
-            return fullName[0][0] + fullName[fullName.length - 1][0];
+            return getInitials(JSON.parse(getUserData()))
         }
         else {
             return 'U'
         }
+
     }
 
     function handleTheme() {
         const switchMode = mode === 'light' ? 'dark' : 'light'
-        setMode((currentMode) => { return switchMode });
+        setMode(switchMode);
         return localStorage.setItem('theme', switchMode)
     }
 
@@ -71,9 +58,10 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
                 <IconButton onClick={handleCollapse}><MenuIcon fontSize='large' /></IconButton>
             </div>
             <div className="navlinks">
-                <Button href="#text-buttons">Home</Button>
+                <Button href="/">Home</Button>
+                {/* <Button href="#text-buttons">All Blogs</Button> */}
                 {isLoggedIn && <Button href="#text-buttons">My Blogs</Button>}
-                <Button href="#text-buttons">All Blogs</Button>
+                {isLoggedIn && <Button href="/create">Write</Button>}
                 <Button href="#text-buttons">About</Button>
             </div>
 
@@ -97,7 +85,7 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
                             aria-expanded={open ? 'true' : undefined}
                             onClick={handleClick}
                         >
-                            <Avatar sx={{ width: 34, height: 34, padding: '3px' }}>{getInitials()}</Avatar>
+                            <Avatar sx={{ width: 34, height: 34, padding: '3px' }}>{getAvatarData()}</Avatar>
                         </IconButton>
                         <Menu
                             id="basic-menu"

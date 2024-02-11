@@ -1,3 +1,10 @@
+.signUpPage {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .signup {
     display: block;
     text-align: center;

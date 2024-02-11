@@ -1,3 +1,10 @@
+.loginPage {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .login {
     display: block;
     text-align: center;

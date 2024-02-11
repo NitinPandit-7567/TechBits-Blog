@@ -1,0 +1,28 @@
+.viewPost {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.post-view {
+    width: 50%;
+}
+
+.post-view>h1 {
+    text-align: center;
+}
+
+.postDetails-view {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.postDetails-view>span {
+    display: flex;
+    margin-right: 5px;
+    align-items: center;
+    min-width: 130px;
+}
