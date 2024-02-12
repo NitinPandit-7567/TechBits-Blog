@@ -14,14 +14,14 @@
 }
 
 .postLink {
-    display: block;
+    display: flex;
     height: 100%;
     width: 100%;
     text-decoration: none;
 }
 
 .cover-home {
-    display: inline-flex;
+    display: inline-block;
     width: 30%;
     overflow: hidden;
     padding: 0;
@@ -29,7 +29,8 @@
 }
 
 .cover-home>img {
-    width: 100%;
+    display: inline-block;
+    width: 30%;
     height: 100%;
     object-position: center center;
     object-fit: cover;
@@ -37,8 +38,14 @@
 
 .content-home {
     display: inline-block;
+    width: 70%;
     padding: 1%;
     border-left: 1px solid;
+}
+
+
+.content-home>h3 {
+    text-align: center;
 }
 
 .date-home {
