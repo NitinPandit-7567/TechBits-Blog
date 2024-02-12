@@ -6,7 +6,10 @@ import { fetchPost } from '../utils/handlePost'
 import TagEditor from '../Components/TagEditor';
 import PostSubmitter from '../Components/PostSubmiter';
 import { handleEditSubmit } from '../utils/handlePost';
+import { getUserData } from '../utils/UserData';
 export default function EditPost({ isLoggedIn }) {
+    const user = getUserData()
+    const [isAuthor, setIsAuthor] = useState(false)
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -19,6 +22,13 @@ export default function EditPost({ isLoggedIn }) {
     useEffect(() => {
         fetchPost(id).then((res) => {
             if (!res.error) {
+                if (user.username === res.post.author.username) {
+                    console.log(user.username, res.post.author.username)
+                    setIsAuthor(true)
+                }
+                else {
+                    return navigate('/')
+                }
                 setTitle(res.post.title);
                 setSummary(res.post.summary);
                 setContent(res.post.content);
@@ -57,6 +67,7 @@ export default function EditPost({ isLoggedIn }) {
             <br></br>
             <PostSubmitter handleSubmit={(evt) => {
                 handleEditSubmit(evt, id, { post: { title, summary, content, tags, status: (evt.target.id) } }).then((res) => {
+                    console.log(res)
                     if (!res.error) {
                         return navigate(`/view/${id}`)
                     }

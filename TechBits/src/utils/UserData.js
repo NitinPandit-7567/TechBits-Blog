@@ -7,7 +7,7 @@ export function setUserData(data) {
 export function getUserData() {
     const user = localStorage.getItem('user');
     if (user) {
-        return user
+        return JSON.parse(user)
     }
     else {
         return false

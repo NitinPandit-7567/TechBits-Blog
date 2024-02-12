@@ -35,7 +35,7 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
 
     function getAvatarData() {
         if (isLoggedIn) {
-            return getInitials(JSON.parse(getUserData()))
+            return getInitials(getUserData())
         }
         else {
             return 'U'
@@ -60,7 +60,7 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
             <div className="navlinks">
                 <Button href="/">Home</Button>
                 {/* <Button href="#text-buttons">All Blogs</Button> */}
-                {isLoggedIn && <Button href="#text-buttons">My Blogs</Button>}
+                {isLoggedIn && <Button href="#text-buttons">My Posts</Button>}
                 {isLoggedIn && <Button href="/create">Write</Button>}
                 <Button href="#text-buttons">About</Button>
             </div>

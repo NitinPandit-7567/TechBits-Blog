@@ -7,7 +7,9 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PasswordInput from '../Components/PasswordInput';
 import '../styles/signup.css'
 import { handleSignUp } from '../utils/authHandlers';
+import { useNavigate } from 'react-router-dom'
 export default function SignUp() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({ firstName: '', lastName: '', username: '', password: '', retypePassword: '', email: '' })
     const [validationError, setValidationError] = useState(false)
     const helperText = 'Passwords do not match.';
@@ -34,6 +36,7 @@ export default function SignUp() {
                         if (!res.error) {
                             setUserData(res)
                             localStorage.setItem('isLoggedIn', true)
+                            return navigate('/')
                         }
                     })
                 }}>
