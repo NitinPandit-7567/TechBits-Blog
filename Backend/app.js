@@ -24,7 +24,7 @@ app.use(cors({
     credentials: true
 }))
 
-app.use('/posts/:id/comments', commentRouter)
+app.use('/comments', commentRouter)
 app.use('/posts', postRouter)
 app.use('/', userRouter)
 
