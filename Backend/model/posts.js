@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Comments = require('./comments.js')
 const postSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,12 +18,6 @@ const postSchema = mongoose.Schema({
     },
     content: String,
     image: String,
-    comments: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Comments'
-        }
-    ],
     tags: {
         type: Array,
         default: 'other'
@@ -33,5 +28,11 @@ const postSchema = mongoose.Schema({
         default: 'draft'
     }
 }, { timestamps: true })
+
+postSchema.post('findOneAndDelete', async (deletePost) => {
+    if (deletePost) {
+        await Comments.deleteMany({ post: { _id: deletePost._id } })
+    }
+})
 
 module.exports = mongoose.model('Posts', postSchema)
