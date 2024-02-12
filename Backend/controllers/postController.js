@@ -3,24 +3,15 @@ const Posts = require('../model/posts');
 const wrapAsync = require('../utils/wrapAsync');
 const AppError = require('../utils/AppError')
 
-// module.exports.allPosts = wrapAsync(async (req, res, next) => {
-//     const posts = await Posts.find({ status: 'published' }, { content: 0, comments: 0, updatedAt: 0, status: 0 }).populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } });
-//     if (posts) {
-//         return res.json(posts);
-//     } else {
-//         return next(new AppError(404, 'Not Found'))
-//     }
-// })
-
 module.exports.allPosts = wrapAsync(async (req, res, next) => {
     const page = req.query.page || 1;
     const resultsPerPage = req.query.size || 5;
     const total = await Posts.countDocuments();
     const pages = Math.ceil(total / resultsPerPage);
-    const posts = await Posts.find({ status: 'published' }, { content: 0, updatedAt: 0, status: 0 }).populate({ path: 'author', select: { '_id': 1, 'username': 1 } }).sort({ createdAt: 'descending' })
+    const posts = await Posts.find({ status: 'published' }, { content: 0, updatedAt: 0, status: 0 }).sort({ createdAt: 'descending' })
         .lean()
         .limit(resultsPerPage)
-        .skip((page - 1) * resultsPerPage);
+        .skip((page - 1) * resultsPerPage).populate({ path: 'author', select: { '_id': 1, 'username': 1 } });
     if (posts && posts.length > 0) {
         return res.json({ pages, page, size: resultsPerPage, posts });
     } else {
@@ -29,7 +20,15 @@ module.exports.allPosts = wrapAsync(async (req, res, next) => {
 })
 
 module.exports.myPosts = wrapAsync(async (req, res, next) => {
-    const posts = await Posts.find({ author: { _id: req.session.user_id } }, { content: 0, comments: 0, updatedAt: 0, status: 0 }).populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } });
+    const page = req.query.page || 1;
+    const resultsPerPage = req.query.size || 5;
+    const total = await Posts.countDocuments();
+    const pages = Math.ceil(total / resultsPerPage);
+    const posts = await Posts.find({ author: { _id: req.session.user_id } }, { content: 0, updatedAt: 0 }).sort({ createdAt: 'descending' })
+        .lean()
+        .limit(resultsPerPage)
+        .skip((page - 1) * resultsPerPage)
+        .populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } });
     if (posts) {
         return res.json(posts);
     } else {
