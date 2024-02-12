@@ -35,7 +35,7 @@ export default function Comments({ post, isLoggedIn }) {
             }
             <div className="postComments">
                 <div className="allComments">
-                    {!isLoggedIn && <h3>Comments:</h3>}
+                    {!isLoggedIn && comments.length > 0 && <h3>Comments:</h3>}
                     {comments.length > 0 && comments.map((el, i) => {
                         return <DisplayComments comments={el} key={i.toString() + '_' + comments._id} />
                     })}
