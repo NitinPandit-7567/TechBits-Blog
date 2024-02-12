@@ -1,6 +1,7 @@
 // const Comments = require('../model/comments.js')
 const Posts = require('../model/posts.js')
 const Comments = require('../model/comments.js')
+const Likes = require('../model/likes.js')
 const AppError = require('../utils/AppError.js')
 module.exports = async function (req, res, next) {
     if (req.session.user_id) {
@@ -12,6 +13,21 @@ module.exports = async function (req, res, next) {
                 const comment = await Comments.findById(c_id)
                 if (comment) {
                     if (req.session.user_id === comment.author._id.toString()) {
+                        return next()
+                    }
+                    else {
+                        return next(new AppError(401, 'Not Authorized'))
+                    }
+                }
+                else {
+                    return next(new AppError(404, 'Not Found'))
+                }
+            }
+            else if (url[url.length - 2] === 'likes') {
+                const { l_id } = req.params;
+                const like = await Likes.findById(l_id)
+                if (like) {
+                    if (req.session.user_id === like.author._id.toString()) {
                         return next()
                     }
                     else {

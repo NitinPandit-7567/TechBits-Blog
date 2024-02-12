@@ -7,8 +7,6 @@ module.exports.newComment = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const user = await Users.findById(req.session.user_id);
     const post = await Posts.findById(id);
-    console.log(post)
-    console.log(user)
     if (user !== null && post !== null) {
         const comment = new Comments({ ...req.body, author: user._id, post: post._id })
         await comment.save();

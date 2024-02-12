@@ -7,6 +7,7 @@ const dotenv = require('dotenv')
 const userRouter = require('./routes/userRouter')
 const postRouter = require('./routes/postRouter')
 const commentRouter = require('./routes/commentRouter')
+const likeRouter = require('./routes/likeRouter')
 dotenv.config()
 const app = express();
 const secret = process.env.TOKEN_SECRET
@@ -24,6 +25,7 @@ app.use(cors({
     credentials: true
 }))
 
+app.use('/likes', likeRouter)
 app.use('/comments', commentRouter)
 app.use('/posts', postRouter)
 app.use('/', userRouter)
