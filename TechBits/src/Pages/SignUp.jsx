@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
-import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material/';
+import { Button, TextField, Alert, LinearProgress } from '@mui/material/';
 import { setUserData } from '../utils/UserData'
-import Alert from '@mui/material/Alert';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PasswordInput from '../Components/PasswordInput';
 import '../styles/signup.css'
@@ -12,6 +10,7 @@ export default function SignUp() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ firstName: '', lastName: '', username: '', password: '', retypePassword: '', email: '' })
     const [validationError, setValidationError] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const helperText = 'Passwords do not match.';
     useEffect(() => {
         if (formData.retypePassword !== '' && formData.retypePassword !== formData.password) {
@@ -20,6 +19,7 @@ export default function SignUp() {
             setValidationError(false)
         }
     }, [formData.retypePassword])
+
     function handleFormChange(evt) {
         const field = evt.target.id
         const value = evt.target.value;
@@ -27,15 +27,18 @@ export default function SignUp() {
     }
     return (
         <div className='signUpPage'>
+            {isLoading && <LinearProgress />}
             <div className="signup">
                 <AppRegistrationIcon color="primary" fontSize="large" />
                 <h1>Sign Up</h1>
                 {validationError && <><Alert severity="error">Passwords do not match. Kindly re-enter the passwords.</Alert> <br /></>}
                 <form onSubmit={(evt) => {
                     handleSignUp(evt, formData).then((res) => {
+                        setIsLoading(true)
                         if (!res.error) {
                             setUserData(res)
                             localStorage.setItem('isLoggedIn', true)
+                            setIsLoading(false)
                             return navigate('/')
                         }
                     })

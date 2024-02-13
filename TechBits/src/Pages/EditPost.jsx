@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Editor from "../Components/Editor"
-import { TextField } from '@mui/material';
+import { TextField, CircularProgress, LinearProgress } from '@mui/material';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { fetchPost } from '../utils/fetchData'
 import TagEditor from '../Components/TagEditor';
@@ -18,19 +18,22 @@ export default function EditPost({ isLoggedIn }) {
     const [content, setContent] = useState('');
     const [tags, setTags] = useState([]);
     const [status, setStatus] = useState('')
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitLoading, setIsSubmitLoading] = useState(false)
     const navigate = useNavigate();
     useEffect(() => {
         fetchPost(id).then((res) => {
             if (!res.error) {
                 if (user.username === res.post.author.username) {
-                    console.log(user.username, res.post.author.username)
                     setTitle(res.post.title);
                     setSummary(res.post.summary);
                     setContent(res.post.content);
                     setTags(res.post.tags);
                     setStatus(res.post.status)
+                    setIsLoading(false)
                 }
                 else {
+                    setIsLoading(false)
                     return navigate('/')
                 }
             }
@@ -38,41 +41,45 @@ export default function EditPost({ isLoggedIn }) {
     }, [])
 
     return (<div className='createWrapper'>
-        <h1>Edit</h1>
-        <form onSubmit={(evt) => {
-            handleEditSubmit(evt, id, { post: { title, summary, content, tags, status } }).then((res) => {
-                console.log(res)
-                if (!res.error) {
-                    return navigate(`/view/${id}`)
-                }
-            })
-        }}>
-            <h3>Title:</h3>
-            <TextField
-                id="title"
-                label="Title"
-                value={title}
-                onChange={ev => setTitle(ev.target.value)}
-                fullWidth
-            />
-            <br></br>
-            <br></br>
-            <h3>Summary</h3>
-            <TextField
-                id="summary"
-                label="Summary"
-                value={summary}
-                onChange={ev => setSummary(ev.target.value)}
-                fullWidth
-            />
-            <br></br>
-            <br></br>
-            <h3>Content</h3>
-            <Editor value={content} onChange={setContent} />
-            <br></br>
-            <TagEditor tags={tags} setTags={setTags} />
-            <br></br>
-            <PostSubmitter setStatus={setStatus} />
-        </form>
+        {isLoading ? <CircularProgress /> : <>
+            {isSubmitLoading && <LinearProgress />}
+            <h1>Edit</h1>
+            <form onSubmit={(evt) => {
+                setIsSubmitLoading(true)
+                handleEditSubmit(evt, id, { post: { title, summary, content, tags, status } }).then((res) => {
+                    if (!res.error) {
+                        setIsSubmitLoading(false)
+                        return navigate(`/view/${id}`)
+                    }
+                })
+            }}>
+                <h3>Title:</h3>
+                <TextField
+                    id="title"
+                    label="Title"
+                    value={title}
+                    onChange={ev => setTitle(ev.target.value)}
+                    fullWidth
+                />
+                <br></br>
+                <br></br>
+                <h3>Summary</h3>
+                <TextField
+                    id="summary"
+                    label="Summary"
+                    value={summary}
+                    onChange={ev => setSummary(ev.target.value)}
+                    fullWidth
+                />
+                <br></br>
+                <br></br>
+                <h3>Content</h3>
+                <Editor value={content} onChange={setContent} />
+                <br></br>
+                <TagEditor tags={tags} setTags={setTags} />
+                <br></br>
+                <PostSubmitter setStatus={setStatus} />
+            </form>
+        </>}
     </div >)
 }

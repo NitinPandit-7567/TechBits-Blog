@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TextField, Button, Alert } from '@mui/material';
+import { TextField, Button, Alert, LinearProgress } from '@mui/material';
 import { Lock, VpnKey } from '@mui/icons-material';
 import { setUserData } from '../utils/UserData'
 import PasswordInput from '../Components/PasswordInput';
@@ -10,6 +10,7 @@ import '../styles/login.css'
 export default function Login({ setIsLoggedIn }) {
     const [formData, setFormData] = useState({ username: '', password: '' })
     const [validationError, setValidationError] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const helperText = 'Incorrect Username/Password';
 
@@ -21,12 +22,15 @@ export default function Login({ setIsLoggedIn }) {
 
     return (
         <div className='loginPage'>
+            {isLoading && <LinearProgress />}
             <div className="login">
                 <Lock color="primary" fontSize="large" />
                 <h1>Sign In</h1>
                 {validationError && <><Alert severity="error">Invalid Username/Password.</Alert> <br /></>}
                 <form onSubmit={(evt) => {
+                    setIsLoading(true)
                     handleLogIn(evt, formData).then((res) => {
+                        setIsLoading(false)
                         if (res.error) {
                             setValidationError(true)
                         }
