@@ -46,6 +46,11 @@
     text-align: center;
 }
 
+.content-home>span {
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
 .info-home {
     display: flex;
     flex-wrap: wrap;

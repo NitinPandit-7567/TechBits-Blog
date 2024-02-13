@@ -27,8 +27,8 @@ export default function SignUp() {
     }
     return (
         <div className='signUpPage'>
-            {isLoading && <LinearProgress />}
             <div className="signup">
+                {isLoading && <LinearProgress />}
                 <AppRegistrationIcon color="primary" fontSize="large" />
                 <h1>Sign Up</h1>
                 {validationError && <><Alert severity="error">Passwords do not match. Kindly re-enter the passwords.</Alert> <br /></>}

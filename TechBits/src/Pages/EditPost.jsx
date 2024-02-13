@@ -7,7 +7,8 @@ import TagEditor from '../Components/TagEditor';
 import PostSubmitter from '../Components/PostSubmiter';
 import { handleEditSubmit } from '../utils/handlePost';
 import { getUserData } from '../utils/UserData';
-export default function EditPost({ isLoggedIn }) {
+import errorHandler from '../utils/errorHandler';
+export default function EditPost({ isLoggedIn, setError }) {
     const user = getUserData()
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
@@ -36,6 +37,8 @@ export default function EditPost({ isLoggedIn }) {
                     setIsLoading(false)
                     return navigate('/')
                 }
+            } else {
+                return navigate(errorHandler(res, setError))
             }
         })
     }, [])
@@ -50,6 +53,9 @@ export default function EditPost({ isLoggedIn }) {
                     if (!res.error) {
                         setIsSubmitLoading(false)
                         return navigate(`/view/${id}`)
+                    }
+                    else {
+                        return navigate(errorHandler(res, setError))
                     }
                 })
             }}>

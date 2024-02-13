@@ -37,16 +37,15 @@ export async function handleLogout(isLoggedIn, setIsLoggedIn) {
         })
         const res = await response.json()
         if (!res.error) {
-            console.log('here')
             clearUserData();
-            localStorage.removeItem('isLoggedIn')
-            setIsLoggedIn(false)
+            localStorage.removeItem('isLoggedIn');
+            setIsLoggedIn(false);
             return window.location.reload();
         }
         else {
             clearUserData();
-            localStorage.removeItem('isLoggedIn')
-            setIsLoggedIn(false)
+            localStorage.removeItem('isLoggedIn');
+            setIsLoggedIn(false);
             return window.location.reload();
         }
     }

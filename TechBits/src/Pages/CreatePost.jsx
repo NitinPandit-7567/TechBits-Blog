@@ -5,7 +5,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import TagEditor from '../Components/TagEditor';
 import { handleCreateSubmit } from '../utils/handlePost';
 import PostSubmitter from '../Components/PostSubmiter';
-export default function CreatePost({ isLoggedIn }) {
+import errorHandler from '../utils/errorHandler'
+export default function CreatePost({ isLoggedIn, setError }) {
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
@@ -28,6 +29,9 @@ export default function CreatePost({ isLoggedIn }) {
                     if (!res.error) {
                         setIsLoading(false)
                         return navigate(`/view/${res.id}`)
+                    }
+                    else {
+                        return navigate(errorHandler(res, setError))
                     }
                 })
             }}>

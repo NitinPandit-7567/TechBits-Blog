@@ -14,7 +14,8 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import convertDate from '../utils/convertDate'
 import LinearProgress from '@mui/material/LinearProgress';
 import '../styles/ViewPost.css'
-export default function ViewPost({ isLoggedIn }) {
+import errorHandler from '../utils/errorHandler';
+export default function ViewPost({ isLoggedIn, setError }) {
     const { id } = useParams()
     const [isAuthor, setIsAuthor] = useState(false)
     const [post, setPost] = useState({ title: 'Title', summary: 'Summary', content: 'Content', tags: [], author: '', date: 'mm-dd-yy' })
@@ -31,6 +32,8 @@ export default function ViewPost({ isLoggedIn }) {
                         setIsAuthor(true)
                     }
                 }
+            } else {
+                return navigate(errorHandler(res, setError))
             }
         })
     }, [])
@@ -74,8 +77,8 @@ export default function ViewPost({ isLoggedIn }) {
                 </div >
             }
             <Suspense fallback={<div><CircularProgress sx={{ marginTop: '20px' }} /></div>}>
-                <Likes post={post} />
-                <Comments id={post._id} post={post} isLoggedIn={isLoggedIn} />
+                <Likes post={post} setError={setError} />
+                <Comments id={post._id} post={post} isLoggedIn={isLoggedIn} setError={setError} />
             </Suspense>
         </div >)
 }

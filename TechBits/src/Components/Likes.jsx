@@ -7,7 +7,10 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { IconButton } from '@mui/material';
 import likeHandler from '../utils/likesHandler';
 import { fetchLikes } from '../utils/fetchData';
-export default function Likes({ post }) {
+import errorHandler from '../utils/errorHandler';
+import { useNavigate } from 'react-router';
+export default function Likes({ post, setError }) {
+    const navigate = useNavigate()
     const [likes, setLikes] = useState({ likeCount: 0, dislikeCount: 0 })
     useEffect(() => {
         fetchLikes(post._id).then((res) => {
@@ -15,6 +18,8 @@ export default function Likes({ post }) {
                 if (res.likeCount || res.dislikeCount) {
                     return setLikes({ ...res })
                 }
+            } else {
+                return navigate(errorHandler(res, setError))
             }
         })
     }, [post])
@@ -34,10 +39,26 @@ export default function Likes({ post }) {
         <div className="likesWrapper">
             <div className="postLikes">
                 <span>
-                    <IconButton sx={{ marginRight: '2px' }} id='like' onClick={(evt) => { likeHandler(evt, likes, post._id) }}>
+                    <IconButton sx={{ marginRight: '2px' }} id='like' onClick={(evt) => {
+                        likeHandler(evt, likes, post._id, setError).then((res) => {
+                            if (!res.error) {
+                                return window.location.reload();
+                            } else {
+                                return navigate(errorHandler(res, setError))
+                            }
+                        })
+                    }}>
                         {likeIcon}
                     </IconButton> {(likes.likeCount)}
-                    <IconButton sx={{ marginRight: '5px', marginLeft: '5px' }} id='dislike' onClick={(evt) => { likeHandler(evt, likes, post._id) }}>
+                    <IconButton sx={{ marginRight: '5px', marginLeft: '5px' }} id='dislike' onClick={(evt) => {
+                        likeHandler(evt, likes, post._id, setError).then((res) => {
+                            if (!res.error) {
+                                return window.location.reload();
+                            } else {
+                                return navigate(errorHandler(res, setError))
+                            }
+                        })
+                    }}>
                         {dislikeIcon}
                     </IconButton> {(likes.dislikeCount)}
                 </span>
@@ -45,3 +66,4 @@ export default function Likes({ post }) {
         </div>
     )
 }
+

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { handleLogIn } from '../utils/authHandlers'
 import '../styles/login.css'
 
-export default function Login({ setIsLoggedIn }) {
+export default function Login({ setIsLoggedIn, setBanner }) {
     const [formData, setFormData] = useState({ username: '', password: '' })
     const [validationError, setValidationError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -22,8 +22,8 @@ export default function Login({ setIsLoggedIn }) {
 
     return (
         <div className='loginPage'>
-            {isLoading && <LinearProgress />}
             <div className="login">
+                {isLoading && <LinearProgress />}
                 <Lock color="primary" fontSize="large" />
                 <h1>Sign In</h1>
                 {validationError && <><Alert severity="error">Invalid Username/Password.</Alert> <br /></>}
@@ -43,6 +43,7 @@ export default function Login({ setIsLoggedIn }) {
                                 localStorage.setItem('isLoggedIn', true);
                                 return true;
                             })
+                            setBanner({ login: 'Signed in successfully.' })
                             return navigate('/')
                         }
                     })

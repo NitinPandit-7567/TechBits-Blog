@@ -14,6 +14,7 @@ import MyPosts from "./Pages/MyPosts";
 export default function App() {
     const [mode, setMode] = useState(localStorage.getItem('theme') !== null ? localStorage.getItem('theme') : 'light')
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true' ? true : false)
+    const [error, setError] = useState(false)
     const [banner, setBanner] = useState(false)
     const theme = createTheme({
         palette: {
@@ -23,39 +24,39 @@ export default function App() {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Home />
+            element: <Home setError={setError} />
         },
         {
             path: '/login',
-            element: <Login setIsLoggedIn={setIsLoggedIn} />
+            element: <Login setIsLoggedIn={setIsLoggedIn} setBanner={setBanner} />
         },
 
         {
             path: '/signUp',
-            element: <SignUp setIsLoggedIn={setIsLoggedIn} />
+            element: <SignUp setIsLoggedIn={setIsLoggedIn} setError={setError} setBanner={setBanner} />
         },
         {
             path: '/create',
-            element: <CreatePost isLoggedIn={isLoggedIn} />
+            element: <CreatePost isLoggedIn={isLoggedIn} setError={setError} setBanner={setBanner} />
         },
         {
             path: '/edit/:id',
-            element: <EditPost isLoggedIn={isLoggedIn} />
+            element: <EditPost isLoggedIn={isLoggedIn} setError={setError} setBanner={setBanner} />
         },
         {
             path: '/view/:id',
-            element: <ViewPost isLoggedIn={isLoggedIn} />
+            element: <ViewPost isLoggedIn={isLoggedIn} setError={setError} />
         },
         {
             path: '/myposts',
-            element: <MyPosts isLoggedIn={isLoggedIn} />
+            element: <MyPosts isLoggedIn={isLoggedIn} setError={setError} />
         }
 
     ])
     return (<>
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Navbar setMode={setMode} mode={mode} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Navbar setMode={setMode} mode={mode} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} error={error} setError={setError} banner={banner} setBanner={setBanner} />
             <RouterProvider router={router} />
         </ThemeProvider>
     </>)

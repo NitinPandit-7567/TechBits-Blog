@@ -33,6 +33,6 @@ app.use('/', userRouter)
 
 app.use((err, req, res, next) => {
     const { status = 500, message = 'Internal server error' } = err;
-    res.status(status).json({ error: { message } })
+    res.status(status).json({ error: { status, message } })
 })
 app.listen(3000, () => { console.log('Listening on port 3000...'); })

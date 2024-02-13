@@ -7,7 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom'
 import { commentDelete } from '../utils/commentHandler';
-export default function DisplayComments({ comments }) {
+import errorHandler from '../utils/errorHandler';
+export default function DisplayComments({ comments, setError }) {
     const user = { name: comments.author.name.first + ' ' + comments.author.name.last }
     const isAuthor = comments.author.username === getUserData().username;
     const navigate = useNavigate()
@@ -17,6 +18,9 @@ export default function DisplayComments({ comments }) {
             commentDelete(id).then((res) => {
                 if (!res.error) {
                     return window.location.reload();
+                }
+                else {
+                    return navigate(errorHandler(res, setError))
                 }
             })
         }

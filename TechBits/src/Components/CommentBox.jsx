@@ -5,7 +5,8 @@ import { getUserData } from '../utils/UserData';
 import { useState } from 'react'
 import { useNavigate } from 'react-router';
 import { commentSubmit } from '../utils/commentHandler';
-export default function CommentBox({ postId }) {
+import errorHandler from '../utils/errorHandler';
+export default function CommentBox({ postId, setError }) {
     const [comment, setComment] = useState({ comment: '' })
     const navigate = useNavigate()
     function handleChange(evt) {
@@ -18,6 +19,8 @@ export default function CommentBox({ postId }) {
             return commentSubmit(evt, postId, comment).then((res) => {
                 if (!res.error) {
                     return window.location.reload();
+                } else {
+                    return navigate(errorHandler(res, setError))
                 }
             })
         }}>

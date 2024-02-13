@@ -7,14 +7,14 @@ import { handleLogout } from '../utils/authHandlers'
 import { getUserData } from '../utils/UserData';
 import getInitials from '../utils/getInitials';
 import { useState } from 'react'
+import Banner from './Banner';
 import '../styles/navbar.css'
-export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
+export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn, error, setError, banner, setBanner }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const location = window.location.pathname.split('/')[1];
     const AuthButtonsCheck = ((location !== 'Login' && location !== 'SignUp') && !isLoggedIn);
     const theme = mode[0].toUpperCase() + mode.slice(1,) + ' Mode ';
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -22,7 +22,8 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
     const handleClose = async (evt) => {
         setAnchorEl(null);
         if (evt.target.id === 'logout') {
-            handleLogout(isLoggedIn, setIsLoggedIn)
+            setBanner({ login: 'Logged out successfully.' })
+            return handleLogout(isLoggedIn, setIsLoggedIn)
         }
     };
 
@@ -50,59 +51,60 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
     }
 
     return (
-        <div className="navbar" >
-            <div className="logo">
-                <a>TechBits</a>
-            </div>
-            <div className="navToggler">
-                <IconButton onClick={handleCollapse}><MenuIcon fontSize='large' /></IconButton>
-            </div>
-            <div className="navlinks">
-                <Button href="/">Home</Button>
-                {/* <Button href="#text-buttons">All Blogs</Button> */}
-                {isLoggedIn && <Button href="/myposts">My Posts</Button>}
-                {isLoggedIn && <Button href="/create">Write</Button>}
-                {/* <Button href="#text-buttons">About</Button> */}
-            </div>
+        <>
+            <div className="navbar" >
+                <div className="logo">
+                    <a>TechBits</a>
+                </div>
+                <div className="navToggler">
+                    <IconButton onClick={handleCollapse}><MenuIcon fontSize='large' /></IconButton>
+                </div>
+                <div className="navlinks">
+                    <Button href="/">Home</Button>
+                    {isLoggedIn && <Button href="/myposts">My Posts</Button>}
+                    {isLoggedIn && <Button href="/create">Write</Button>}
+                </div>
 
-            <div className="navButtons">
-                <div className="themeToggler">
-                    <Tooltip title={theme}>
-                        <IconButton onClick={handleTheme}>
-                            {mode === 'light' ? <LightModeOutlinedIcon /> : <DarkModeIcon />}
-                        </IconButton>
-                    </Tooltip>
-                </div>
-                <div className="authButtons">
-                    {AuthButtonsCheck && <Button color="inherit" href="/Login">Login</Button>}
-                    {AuthButtonsCheck && <Button color="inherit" href='/SignUp'>Create account</Button>}
-                    {/* Profile options */}
-                    {isLoggedIn && <div>
-                        <IconButton
-                            id="basic-button"
-                            aria-controls={open ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                        >
-                            <Avatar sx={{ width: 34, height: 34, padding: '3px' }}>{getAvatarData()}</Avatar>
-                        </IconButton>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem onClick={handleClose} id='profile'><Avatar size='small' sx={{ marginRight: '5px', width: 24, height: 24 }} /> My account</MenuItem>
-                            <Divider variant="middle" component="li" />
-                            <MenuItem onClick={handleClose} id='logout'><LogoutIcon sx={{ marginRight: '5px' }} />Logout</MenuItem>
-                        </Menu>
-                    </div>}
+                <div className="navButtons">
+                    <div className="themeToggler">
+                        <Tooltip title={theme}>
+                            <IconButton onClick={handleTheme}>
+                                {mode === 'light' ? <LightModeOutlinedIcon /> : <DarkModeIcon />}
+                            </IconButton>
+                        </Tooltip>
+                    </div>
+                    <div className="authButtons">
+                        {AuthButtonsCheck && <Button color="inherit" href="/Login">Login</Button>}
+                        {AuthButtonsCheck && <Button color="inherit" href='/SignUp'>Create account</Button>}
+                        {/* Profile options */}
+                        {isLoggedIn && <div>
+                            <IconButton
+                                id="basic-button"
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleClick}
+                            >
+                                <Avatar sx={{ width: 34, height: 34, padding: '3px' }}>{getAvatarData()}</Avatar>
+                            </IconButton>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <MenuItem onClick={handleClose} id='profile'><Avatar size='small' sx={{ marginRight: '5px', width: 24, height: 24 }} /> My account</MenuItem>
+                                <Divider variant="middle" component="li" />
+                                <MenuItem onClick={handleClose} id='logout'><LogoutIcon sx={{ marginRight: '5px' }} />Logout</MenuItem>
+                            </Menu>
+                        </div>}
+                    </div>
                 </div>
             </div>
-        </div>
+            <Banner error={error} setError={setError} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} banner={banner} setBanner={setBanner} />
+        </>
     )
 }

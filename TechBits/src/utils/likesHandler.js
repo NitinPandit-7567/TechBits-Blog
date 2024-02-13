@@ -1,9 +1,7 @@
-export default async function likeHandler(evt, likes, post_id) {
-
+export default async function likeHandler(evt, likes, post_id, setError) {
     if (evt.target.id === 'like' || evt.target.id === 'dislike') {
         const data = (evt.target.id === 'like') ? true : false;
         if (likes._id) {
-            console.log(data)
             if (data !== likes.isLiked) {
                 const response = await fetch(`http://localhost:3000/likes/${likes._id}`, {
                     method: "PATCH",
@@ -13,10 +11,7 @@ export default async function likeHandler(evt, likes, post_id) {
                     },
                     body: JSON.stringify({ "like": data })
                 })
-                const res = await response.json();
-                if (!res.error) {
-                    return window.location.reload();
-                }
+                return await response.json();
             }
             else {
                 const response = await fetch(`http://localhost:3000/likes/${likes._id}`, {
@@ -26,13 +21,9 @@ export default async function likeHandler(evt, likes, post_id) {
                         'Content-Type': 'application/json'
                     }
                 })
-                const res = await response.json();
-                if (!res.error) {
-                    return window.location.reload();
-                }
+                return await response.json();
             }
         } else {
-            console.log('create', post_id)
             const response = await fetch(`http://localhost:3000/likes/${post_id}/new`, {
                 method: "POST",
                 credentials: 'include',
@@ -41,10 +32,7 @@ export default async function likeHandler(evt, likes, post_id) {
                 },
                 body: JSON.stringify({ "like": data })
             })
-            const res = await response.json();
-            if (!res.error) {
-                return window.location.reload();
-            }
+            return await response.json();
         }
     }
 
