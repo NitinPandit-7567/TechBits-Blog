@@ -60,9 +60,9 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
             <div className="navlinks">
                 <Button href="/">Home</Button>
                 {/* <Button href="#text-buttons">All Blogs</Button> */}
-                {isLoggedIn && <Button href="#text-buttons">My Posts</Button>}
+                {isLoggedIn && <Button href="/myposts">My Posts</Button>}
                 {isLoggedIn && <Button href="/create">Write</Button>}
-                <Button href="#text-buttons">About</Button>
+                {/* <Button href="#text-buttons">About</Button> */}
             </div>
 
             <div className="navButtons">

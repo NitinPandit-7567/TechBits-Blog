@@ -1,0 +1,99 @@
+.allPosts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2%;
+}
+
+.post-myPosts {
+    cursor: pointer;
+    margin-bottom: 40px;
+    width: 85%;
+}
+
+.postLink {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
+.cover-myPosts {
+    display: inline-block;
+    width: 30%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.cover-myPosts>img {
+    display: inline-block;
+    width: 30%;
+    height: 100%;
+    object-position: center center;
+    object-fit: cover;
+}
+
+.content-myPosts {
+    display: inline-block;
+    width: 70%;
+    padding: 1%;
+    border-left: 1px solid;
+}
+
+
+.content-myPosts>h3 {
+    text-align: center;
+}
+
+.info-myPosts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-details {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.post-details>span {
+    display: flex;
+    align-items: center;
+
+}
+
+.noPosts {
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    font-size: small;
+    font-weight: lighter;
+}
+
+.status-draft {
+    background-color: orange;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    padding: 1px 5px;
+    margin-right: 5px;
+}
+
+.status-published {
+    background-color: green;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    padding: 1px 5px;
+    margin-right: 5px;
+}

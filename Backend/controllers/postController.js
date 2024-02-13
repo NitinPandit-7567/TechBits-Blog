@@ -41,13 +41,28 @@ module.exports.myPosts = wrapAsync(async (req, res, next) => {
     const resultsPerPage = req.query.size || 5;
     const total = await Posts.countDocuments();
     const pages = Math.ceil(total / resultsPerPage);
-    const posts = await Posts.find({ author: { _id: req.session.user_id } }, { content: 0, updatedAt: 0 }).sort({ createdAt: 'descending' })
+    let posts = await Posts.find({ author: { _id: req.session.user_id } }, { content: 0 }).sort({ createdAt: 'descending' })
         .lean()
         .limit(resultsPerPage)
-        .skip((page - 1) * resultsPerPage)
-        .populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } });
-    if (posts) {
-        return res.json(posts);
+        .skip((page - 1) * resultsPerPage).populate({ path: 'author', select: { '_id': 1, 'username': 1 } });
+    if (posts && posts.length > 0) {
+        for (let i of posts) {
+            const comments = await Comments.find({ post: { _id: i._id } });
+            const likes = await Likes.find({ post: { _id: i._id } });
+            i.likeCount = 0;
+            i.dislikeCount = 0;
+            if (likes.length > 0) {
+                for (let j of likes) {
+                    if (j.like) {
+                        i.likeCount += 1;
+                    } else {
+                        i.dislikeCount += 1;
+                    }
+                }
+            }
+            i.commentsCount = comments.length
+        }
+        return res.json({ pages, page, size: resultsPerPage, posts });
     } else {
         return next(new AppError(404, 'Not Found'))
     }

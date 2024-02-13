@@ -7,6 +7,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CommentIcon from '@mui/icons-material/Comment';
 import PersonIcon from '@mui/icons-material/Person';
 import { useSearchParams } from "react-router-dom";
+import { getAllPosts } from '../utils/handlePost';
 import '../styles/home.css'
 
 export default function Home() {
@@ -19,45 +20,11 @@ export default function Home() {
     }
 
     useEffect(() => {
-        const getData = async function (index = 1) {
-            const response = await fetch(`http://localhost:3000/posts/all?page=${index}`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-            const res = await response.json();
-            if (!res.error) {
-                setData(currentData => { return res })
-                setPages({ page: Number(res.page), totalPages: Number(res.pages) })
-            }
-            else {
-                return false;
-            }
-        }
-        getData()
+        getAllPosts(pages.page, setData, setPages)
     }, [])
 
     useEffect(() => {
-        const getData = async function (index = 1) {
-            const response = await fetch(`http://localhost:3000/posts/all?page=${index}`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-            const res = await response.json();
-            if (!res.error) {
-                setData(res)
-                setPages({ page: Number(res.page), totalPages: Number(res.pages) })
-            }
-            else {
-                return false;
-            }
-        }
-        getData(pages.page)
+        getAllPosts(pages.page, setData, setPages)
 
     }, [searchParams])
     return (<>

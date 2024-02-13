@@ -33,12 +33,17 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .postEditButtons>button {
     display: flex;
     align-items: center;
+}
+
+.postEditButtons>span {
+    margin-top: 5px;
 }
 
 .commentsWrapper {

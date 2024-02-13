@@ -54,6 +54,7 @@ export default function ViewPost({ isLoggedIn }) {
                             Delete <DeleteIcon fontSize='small' />
                         </Button>
                     </ButtonGroup>
+                        <span className='status'><span className={`status-${post.status}`}></span>{post.status[0].toUpperCase() + post.status.substr(1,)}</span>
                     </div>
                 }
                 <br></br>

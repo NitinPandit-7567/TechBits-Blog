@@ -9,7 +9,7 @@ import Home from "./Pages/Home";
 import CreatePost from "./Pages/CreatePost";
 import EditPost from "./Pages/EditPost";
 import ViewPost from "./Pages/ViewPost";
-
+import MyPosts from "./Pages/MyPosts";
 
 export default function App() {
     const [mode, setMode] = useState(localStorage.getItem('theme') !== null ? localStorage.getItem('theme') : 'light')
@@ -45,6 +45,10 @@ export default function App() {
         {
             path: '/view/:id',
             element: <ViewPost isLoggedIn={isLoggedIn} />
+        },
+        {
+            path: '/myposts',
+            element: <MyPosts isLoggedIn={isLoggedIn} />
         }
 
     ])
