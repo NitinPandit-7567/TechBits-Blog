@@ -17,6 +17,7 @@ export default function EditPost({ isLoggedIn }) {
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
     const [tags, setTags] = useState([]);
+    const [status, setStatus] = useState('')
     const navigate = useNavigate();
     useEffect(() => {
         fetchPost(id).then((res) => {
@@ -27,6 +28,7 @@ export default function EditPost({ isLoggedIn }) {
                     setSummary(res.post.summary);
                     setContent(res.post.content);
                     setTags(res.post.tags);
+                    setStatus(res.post.status)
                 }
                 else {
                     return navigate('/')
@@ -37,7 +39,14 @@ export default function EditPost({ isLoggedIn }) {
 
     return (<div className='createWrapper'>
         <h1>Edit</h1>
-        <form>
+        <form onSubmit={(evt) => {
+            handleEditSubmit(evt, id, { post: { title, summary, content, tags, status } }).then((res) => {
+                console.log(res)
+                if (!res.error) {
+                    return navigate(`/view/${id}`)
+                }
+            })
+        }}>
             <h3>Title:</h3>
             <TextField
                 id="title"
@@ -63,14 +72,7 @@ export default function EditPost({ isLoggedIn }) {
             <br></br>
             <TagEditor tags={tags} setTags={setTags} />
             <br></br>
-            <PostSubmitter handleSubmit={(evt) => {
-                handleEditSubmit(evt, id, { post: { title, summary, content, tags, status: (evt.target.id) } }).then((res) => {
-                    console.log(res)
-                    if (!res.error) {
-                        return navigate(`/view/${id}`)
-                    }
-                })
-            }} />
+            <PostSubmitter setStatus={setStatus} />
         </form>
     </div >)
 }

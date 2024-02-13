@@ -3,37 +3,29 @@ import Editor from "../Components/Editor"
 import { TextField } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
 import TagEditor from '../Components/TagEditor';
+import { handleCreateSubmit } from '../utils/handlePost';
 import PostSubmitter from '../Components/PostSubmiter';
 export default function CreatePost({ isLoggedIn }) {
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
     const [tags, setTags] = useState([]);
+    const [status, setStatus] = useState('')
     const navigate = useNavigate();
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
-    async function handleSubmit(evt) {
-        evt.preventDefault();
-        const status = evt.target.id;
-        const formData = { title, summary, content, tags, status }
-        const response = await fetch('http://localhost:3000/posts/new', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        const res = await response.json();
-        console.log(res)
-        if (!res.error) {
-            return navigate('/')
-        }
-    }
+
     return (<div className='createWrapper'>
         <h1>Write</h1>
-        <form onClick={handleSubmit}>
+        <form onSubmit={(evt) => {
+            const formData = { title, summary, content, tags, status }
+            handleCreateSubmit(evt, formData).then((res) => {
+                if (!res.error) {
+                    return navigate(`/view/${res.id}`)
+                }
+            })
+        }}>
             <h3>Title:</h3>
             <TextField
                 id="title"
@@ -60,7 +52,7 @@ export default function CreatePost({ isLoggedIn }) {
             <br></br>
             <TagEditor tags={tags} setTags={setTags} />
             <br></br>
-            <PostSubmitter handleSubmit={handleSubmit} />
+            <PostSubmitter setStatus={setStatus} />
         </form>
     </div >)
 }
