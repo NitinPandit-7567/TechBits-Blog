@@ -16,11 +16,19 @@ module.exports.allPosts = wrapAsync(async (req, res, next) => {
     if (posts && posts.length > 0) {
         for (let i of posts) {
             const comments = await Comments.find({ post: { _id: i._id } });
-            const likes = await Likes.find({ post: { _id: i._id }, like: true });
-            const dislikes = await Likes.find({ post: { _id: i._id }, like: false });
+            const likes = await Likes.find({ post: { _id: i._id } });
+            i.likeCount = 0;
+            i.dislikeCount = 0;
+            if (likes.length > 0) {
+                for (let j of likes) {
+                    if (j.like) {
+                        i.likeCount += 1;
+                    } else {
+                        i.dislikeCount += 1;
+                    }
+                }
+            }
             i.commentsCount = comments.length
-            i.likeCount = likes.length;
-            i.dislikeCount = dislikes.length;
         }
         return res.json({ pages, page, size: resultsPerPage, posts });
     } else {

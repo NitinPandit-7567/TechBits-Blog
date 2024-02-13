@@ -7,10 +7,10 @@ module.exports.newComment = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const user = await Users.findById(req.session.user_id);
     const post = await Posts.findById(id);
-    if (user !== null && post !== null) {
+    if (user !== null && post !== null && post.status !== 'draft') {
         const comment = new Comments({ ...req.body, author: user._id, post: post._id })
         await comment.save();
-        return res.json({ status: 200, message: 'Comment Created' })
+        return res.status(200).json({ message: 'Comment Created' })
     }
     else {
         return next(new AppError(404, 'Not Found'))
@@ -24,12 +24,12 @@ module.exports.getComments = wrapAsync(async (req, res, next) => {
     if (comments) {
         return res.json({ comments })
     } else {
-        return res.json({ status: 200, message: 'There are no comments yet.' })
+        return res.status(200).json({ message: 'There are no comments yet.' })
     }
 })
 
 module.exports.deleteComment = wrapAsync(async (req, res, next) => {
     const { c_id } = req.params;
     await Comments.findByIdAndDelete(c_id)
-    return res.json({ status: 200, message: 'Comment Deleted' })
+    return res.status(200).json({ message: 'Comment Deleted' })
 })
