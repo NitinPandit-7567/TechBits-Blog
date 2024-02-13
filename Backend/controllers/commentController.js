@@ -22,8 +22,7 @@ module.exports.getComments = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const comments = await Comments.find({ post: { _id: id } }).populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } })
     if (comments) {
-        const commentsCount = comments.length;
-        return res.json({ comments, commentsCount })
+        return res.json({ comments })
     } else {
         return res.json({ status: 200, message: 'There are no comments yet.' })
     }

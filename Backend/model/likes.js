@@ -3,7 +3,6 @@ const likeSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
-        unique: true,
         required: true
     },
     post: {
@@ -18,4 +17,5 @@ const likeSchema = mongoose.Schema({
     }
 }, { timestamps: true })
 
+likeSchema.index({ author: 1, post: 1 }, { unique: true })
 module.exports = mongoose.model('Likes', likeSchema)

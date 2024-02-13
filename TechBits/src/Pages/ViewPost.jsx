@@ -10,6 +10,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Comments from '../Components/Comments';
+import Likes from '../Components/Likes';
 import '../styles/ViewPost.css'
 export default function ViewPost({ isLoggedIn }) {
     const { id } = useParams()
@@ -52,6 +53,7 @@ export default function ViewPost({ isLoggedIn }) {
                 <h3>Tags:</h3>
                 <Tags tags={post.tags} />
             </div >
+            <Likes isLoggedIn={isLoggedIn} post={post} />
             <Comments id={post._id} post={post} isLoggedIn={isLoggedIn} />
         </div>)
 }

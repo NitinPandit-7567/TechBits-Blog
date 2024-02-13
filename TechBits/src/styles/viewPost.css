@@ -65,6 +65,7 @@
     display: flex;
     margin-top: 10px;
     width: 100%;
+    border-bottom: 1px solid;
 }
 
 .comment {
@@ -96,4 +97,20 @@
 
 .commentDelete {
     align-self: center;
+}
+
+.likesWrapper {
+    display: flex;
+    align-self: flex-start;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.postLikes {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
 }

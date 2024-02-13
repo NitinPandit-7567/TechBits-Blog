@@ -15,8 +15,7 @@ export default function Comments({ post, isLoggedIn }) {
             })
             const res = await response.json();
             if (!res.error) {
-                console.log(res)
-                if (res.commentsCount > 0) {
+                if (res.comments.length > 0) {
                     return setComments(res.comments)
                 }
             }
@@ -27,7 +26,7 @@ export default function Comments({ post, isLoggedIn }) {
         <div className="commentsWrapper">
             {isLoggedIn &&
                 <div className="postComments">
-                    <h3>Comments:</h3>
+                    <h3>{comments.length > 0 ? comments.length : ''} Comments:</h3>
                     <div className="newComment">
                         <CommentBox postId={post._id} setComments={setComments} />
                     </div>
@@ -35,7 +34,7 @@ export default function Comments({ post, isLoggedIn }) {
             }
             <div className="postComments">
                 <div className="allComments">
-                    {!isLoggedIn && comments.length > 0 && <h3>Comments:</h3>}
+                    {!isLoggedIn && <h3>{comments.length > 0 ? comments.length : ''} Comments:</h3>}
                     {comments.length > 0 && comments.map((el, i) => {
                         return <DisplayComments comments={el} key={i.toString() + '_' + comments._id} />
                     })}

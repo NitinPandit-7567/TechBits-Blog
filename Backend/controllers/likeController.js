@@ -37,17 +37,30 @@ module.exports.getLikes = wrapAsync(async (req, res, next) => {
     const likeCount = likes.length;
     const dislikeCount = dislikes.length;
     const result = { likeCount, dislikeCount }
-    if (likes) {
-        likes.map((el) => {
-            if (el.author._id.toString() === req.session.user_id) {
-                result.isLiked = el.like;
-                result._id = el._id
-            }
-        })
-        return res.json({ result })
-    } else {
-        return res.json({ status: 200, message: 'There are no likes yet.' })
+    if (likeCount > 0 || dislikeCount > 0) {
+        if (likeCount > 0) {
+            likes.map((el) => {
+                if (el.author._id.toString() === req.session.user_id) {
+                    result.isLiked = el.like;
+                    result._id = el._id
+                }
+            })
+            return res.json({ ...result })
+        }
+        if (dislikeCount > 0) {
+            dislikes.map((el) => {
+                if (el.author._id.toString() === req.session.user_id) {
+                    result.isLiked = el.like;
+                    result._id = el._id
+                }
+            })
+            return res.json({ ...result })
+        }
     }
+    else {
+        return res.json({ status: 200, message: 'There are no Likes yet' })
+    }
+
 })
 
 module.exports.deleteLike = wrapAsync(async (req, res, next) => {

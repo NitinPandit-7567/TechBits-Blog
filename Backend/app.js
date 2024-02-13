@@ -18,7 +18,8 @@ app.use(express.json());
 app.use(session({
     secret: secret,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+    cookie: { maxAge: 5 * 60 * 60 * 1000 }
 }))
 app.use(cors({
     origin: 'http://localhost:5173',
