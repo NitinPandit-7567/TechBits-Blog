@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
 import Tags from '../Components/Tags';
 import { Button, ButtonGroup, Avatar } from '@mui/material';
 import convertDate from '../utils/convertDate'
 import { getUserData } from '../utils/UserData';
-import { fetchPost } from '../utils/handlePost'
+import { fetchPost } from '../utils/fetchData'
 import PersonIcon from '@mui/icons-material/Person';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Comments from '../Components/Comments';
 import Likes from '../Components/Likes';
+import { handleDelete } from '../utils/handlePost';
 import '../styles/ViewPost.css'
 export default function ViewPost({ isLoggedIn }) {
     const { id } = useParams()
@@ -41,10 +42,12 @@ export default function ViewPost({ isLoggedIn }) {
                 <br></br>
                 {isAuthor && <div className='postEditButtons'> <ButtonGroup variant="contained" aria-label="Basic button group" size="small">
                     <Button color='warning' id='edit' href={`/edit/${post._id}`}><EditNoteIcon fontSize='small' />Edit</Button>
-                    <Button color='error' id='delete' type='submit' onClick={() => {
-                        const res = handleDelete(evt, id); if (!res.error) {
-                            return navigate('/')
-                        }
+                    <Button color='error' id='delete' type='submit' onClick={(evt) => {
+                        handleDelete(evt, id).then((res) => {
+                            if (!res.error) {
+                                return navigate('/')
+                            }
+                        })
                     }}>Delete <DeleteIcon fontSize='small' /></Button>
                 </ButtonGroup></div>}
                 <br></br>
@@ -53,7 +56,7 @@ export default function ViewPost({ isLoggedIn }) {
                 <h3>Tags:</h3>
                 <Tags tags={post.tags} />
             </div >
-            <Likes isLoggedIn={isLoggedIn} post={post} />
+            <Likes post={post} />
             <Comments id={post._id} post={post} isLoggedIn={isLoggedIn} />
         </div>)
 }

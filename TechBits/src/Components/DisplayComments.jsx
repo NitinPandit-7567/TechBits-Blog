@@ -6,6 +6,7 @@ import convertDate from '../utils/convertDate';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom'
+import { commentDelete } from '../utils/commentHandler';
 export default function DisplayComments({ comments }) {
     const user = { name: comments.author.name.first + ' ' + comments.author.name.last }
     const isAuthor = comments.author.username === getUserData().username;
@@ -13,17 +14,11 @@ export default function DisplayComments({ comments }) {
     async function handleDelete(evt) {
         const id = evt.target.parentNode.id
         if (id) {
-            const response = await fetch(`http://localhost:3000/comments/${id}`, {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
+            commentDelete(id).then((res) => {
+                if (!res.error) {
+                    return window.location.reload();
                 }
             })
-            const res = await response.json();
-            if (!res.error) {
-                return window.location.reload();
-            }
         }
     }
     return (<div className='displayCommentsWrapper'>

@@ -6,25 +6,17 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { IconButton } from '@mui/material';
 import likeHandler from '../utils/likesHandler';
-export default function Likes({ post, isLoggedIn }) {
+import { fetchLikes } from '../utils/fetchData';
+export default function Likes({ post }) {
     const [likes, setLikes] = useState({ likeCount: 0, dislikeCount: 0 })
     useEffect(() => {
-        async function fetchLikes(id) {
-            const response = await fetch(`http://localhost:3000/likes/${id}`, {
-                method: "GET",
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            const res = await response.json();
+        fetchLikes(post._id).then((res) => {
             if (!res.error) {
                 if (res.likeCount || res.dislikeCount) {
                     return setLikes({ ...res })
                 }
             }
-        }
-        fetchLikes(post._id)
+        })
     }, [post])
 
     let likeIcon = <ThumbUpOffAltIcon fontSize='small' id='like' />

@@ -4,7 +4,7 @@ import getInitials from '../utils/getInitials'
 import { getUserData } from '../utils/UserData';
 import { useState } from 'react'
 import { useNavigate } from 'react-router';
-
+import { commentSubmit } from '../utils/commentHandler';
 export default function CommentBox({ postId }) {
     const [comment, setComment] = useState({ comment: '' })
     const navigate = useNavigate()
@@ -13,26 +13,14 @@ export default function CommentBox({ postId }) {
         const field = evt.target.id;
         return setComment(currentData => { return { [field]: value } })
     }
-
-    async function handleSubmit(evt) {
-        evt.preventDefault();
-        console.log(`http://localhost:3000/comments/${postId}/new`)
-        const response = await fetch(`http://localhost:3000/comments/${postId}/new`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(comment)
-        })
-        const res = await response.json();
-        console.log(res)
-        if (!res.error) {
-            return window.location.reload();
-        }
-    }
     return (<div className='CommentBox'>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(evt) => {
+            return commentSubmit(evt, postId, comment).then((res) => {
+                if (!res.error) {
+                    return window.location.reload();
+                }
+            })
+        }}>
             <InputLabel htmlFor="comment">
                 Add a new comment
             </InputLabel>

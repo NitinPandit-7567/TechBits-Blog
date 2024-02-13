@@ -11,16 +11,6 @@ export async function handleDelete(evt, id) {
 
 }
 
-export async function fetchPost(post_id) {
-    const response = await fetch(`http://localhost:3000/posts/${post_id}`, {
-        method: "GET",
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    return await response.json();
-}
 
 export async function handleEditSubmit(evt, id, formData) {
     evt.preventDefault();

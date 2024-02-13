@@ -3,7 +3,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-import { handleLogout } from '../utils/handleLogout'
+import { handleLogout } from '../utils/authHandlers'
 import { getUserData } from '../utils/UserData';
 import getInitials from '../utils/getInitials';
 import { useState } from 'react'
@@ -26,7 +26,7 @@ export default function Navbar({ setMode, mode, isLoggedIn, setIsLoggedIn }) {
         }
     };
 
-    function handleCollapse(evt) {
+    function handleCollapse() {
         const menuLinks = document.querySelector('.navlinks')
         const menuButtons = document.querySelector('.navButtons')
         menuLinks.classList.toggle('collapse')

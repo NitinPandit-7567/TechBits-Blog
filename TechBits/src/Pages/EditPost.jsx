@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react'
 import Editor from "../Components/Editor"
 import { TextField } from '@mui/material';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { fetchPost } from '../utils/handlePost'
+import { fetchPost } from '../utils/fetchData'
 import TagEditor from '../Components/TagEditor';
 import PostSubmitter from '../Components/PostSubmiter';
 import { handleEditSubmit } from '../utils/handlePost';
 import { getUserData } from '../utils/UserData';
 export default function EditPost({ isLoggedIn }) {
     const user = getUserData()
-    const [isAuthor, setIsAuthor] = useState(false)
     if (!isLoggedIn) {
         return <Navigate to={'/login'} />
     }
@@ -24,15 +23,14 @@ export default function EditPost({ isLoggedIn }) {
             if (!res.error) {
                 if (user.username === res.post.author.username) {
                     console.log(user.username, res.post.author.username)
-                    setIsAuthor(true)
+                    setTitle(res.post.title);
+                    setSummary(res.post.summary);
+                    setContent(res.post.content);
+                    setTags(res.post.tags);
                 }
                 else {
                     return navigate('/')
                 }
-                setTitle(res.post.title);
-                setSummary(res.post.summary);
-                setContent(res.post.content);
-                setTags(res.post.tags);
             }
         })
     }, [])

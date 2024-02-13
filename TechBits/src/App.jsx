@@ -11,10 +11,10 @@ import EditPost from "./Pages/EditPost";
 import ViewPost from "./Pages/ViewPost";
 
 
-
 export default function App() {
     const [mode, setMode] = useState(localStorage.getItem('theme') !== null ? localStorage.getItem('theme') : 'light')
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true' ? true : false)
+    const [banner, setBanner] = useState(false)
     const theme = createTheme({
         palette: {
             mode: mode,

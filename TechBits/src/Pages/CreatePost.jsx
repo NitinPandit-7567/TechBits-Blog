@@ -33,12 +33,13 @@ export default function CreatePost({ isLoggedIn }) {
     }
     return (<div className='createWrapper'>
         <h1>Write</h1>
-        <form>
+        <form onClick={handleSubmit}>
             <h3>Title:</h3>
             <TextField
                 id="title"
                 label="Title"
                 value={title}
+                required
                 onChange={ev => setTitle(ev.target.value)}
                 fullWidth
             />

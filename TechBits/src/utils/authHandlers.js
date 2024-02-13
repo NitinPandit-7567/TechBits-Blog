@@ -1,3 +1,4 @@
+import { clearUserData } from '../utils/UserData'
 export async function handleSignUp(evt, formData) {
     evt.preventDefault();
     const finalFormData = { username: formData.username, name: { first: formData.firstName, last: formData.lastName }, email: formData.email, password: formData.password }
@@ -23,4 +24,30 @@ export async function handleLogIn(evt, formData) {
         body: JSON.stringify(formData)
     })
     return await response.json()
+}
+
+export async function handleLogout(isLoggedIn, setIsLoggedIn) {
+    if (isLoggedIn) {
+        const response = await fetch('http://localhost:3000/logout', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const res = await response.json()
+        if (!res.error) {
+            console.log('here')
+            clearUserData();
+            localStorage.removeItem('isLoggedIn')
+            setIsLoggedIn(false)
+            return window.location.reload();
+        }
+        else {
+            clearUserData();
+            localStorage.removeItem('isLoggedIn')
+            setIsLoggedIn(false)
+            return window.location.reload();
+        }
+    }
 }

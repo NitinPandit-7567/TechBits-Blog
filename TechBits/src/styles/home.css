@@ -7,8 +7,6 @@
 
 .post-home {
     cursor: pointer;
-    /* border-radius: 10px;
-    border: 1px solid; */
     margin-bottom: 40px;
     width: 85%;
 }
@@ -48,8 +46,11 @@
     text-align: center;
 }
 
-.date-home {
-    position: relative;
+.info-home {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .post-details {
@@ -57,7 +58,7 @@
     margin-top: 10px;
     align-items: center;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .post-details>span {
