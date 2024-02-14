@@ -45,7 +45,7 @@ export default function App() {
         },
         {
             path: '/view/:id',
-            element: <ViewPost isLoggedIn={isLoggedIn} setError={setError} />
+            element: <ViewPost isLoggedIn={isLoggedIn} setError={setError} setBanner={setBanner} />
         },
         {
             path: '/myposts',

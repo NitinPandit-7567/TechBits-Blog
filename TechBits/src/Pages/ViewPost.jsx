@@ -15,7 +15,7 @@ import convertDate from '../utils/convertDate'
 import LinearProgress from '@mui/material/LinearProgress';
 import '../styles/ViewPost.css'
 import errorHandler from '../utils/errorHandler';
-export default function ViewPost({ isLoggedIn, setError }) {
+export default function ViewPost({ isLoggedIn, setError, setBanner }) {
     const { id } = useParams()
     const [isAuthor, setIsAuthor] = useState(false)
     const [post, setPost] = useState({ title: 'Title', summary: 'Summary', content: 'Content', tags: [], author: '', date: 'mm-dd-yy' })
@@ -45,7 +45,7 @@ export default function ViewPost({ isLoggedIn, setError }) {
                 <>
                     <div className='post-view'>
                         <div className="post-Image">
-                            <img src={post.image}></img>
+                            <img src={post.image === undefined ? '../../blog-cover-picture.png' : (post.image !== '' ? post.image : '../../blog-cover-picture.png')}></img>
                         </div>
                         <h1>{post.title}</h1>
                         <div className="postDetails-view">
@@ -59,7 +59,10 @@ export default function ViewPost({ isLoggedIn, setError }) {
                                 <Button color='error' id='delete' type='submit' onClick={(evt) => {
                                     handleDelete(evt, id).then((res) => {
                                         if (!res.error) {
+                                            setBanner('Post deleted successfully!')
                                             return navigate('/')
+                                        } else {
+                                            return navigate(errorHandler(res, setError))
                                         }
                                     })
                                 }}>

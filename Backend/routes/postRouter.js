@@ -4,7 +4,17 @@ const isLoggedIn = require('../middlewares/isLoggedIn')
 const postController = require('../controllers/postController');
 const validateAuthor = require('../middlewares/validateAuthor');
 const multer = require('multer')
-const upload = multer({ dest: '../TechBits/public/uploads/' })
+function fileFilter(req, file, cb) {
+    const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (allowedFileTypes.includes(file.mimetype)) {
+        cb(null, true);
+    }
+    else {
+        cb(null, false);
+    }
+
+}
+const upload = multer({ dest: '../TechBits/public/uploads/', fileFilter })
 
 
 router.route('/all')

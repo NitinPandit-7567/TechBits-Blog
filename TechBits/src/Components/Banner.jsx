@@ -16,7 +16,7 @@ export default function Banner({ error, setError, isLoggedIn, setIsLoggedIn, ban
     return (
         <>
             {error && <Alert severity="error">{error.message}</Alert>}
-            {banner.login ? <Alert severity="success">{banner.login}</Alert> : (banner && <Alert severity="info">{banner.login}</Alert>)}
+            {banner.login ? <Alert severity="success">{banner.login}</Alert> : (banner && <Alert severity="info">{banner}</Alert>)}
             {/* {banner && <Alert severity="info">{banner.login}</Alert>} */}
         </>
     )

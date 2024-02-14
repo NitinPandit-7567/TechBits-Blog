@@ -9,7 +9,7 @@ export default function PostCard({ post }) {
         <div key={'post' + post._id} id={post._id} className='postCard'>
             <a href={`/view/${post._id}`} className='postLink'>
                 <div className='postCover'>
-                    <img src={post.image === undefined ? '../../blog-cover-picture.png' : (post.image !== '' ? '../../blog-cover-picture.png' : post.image)} alt="Cover-Image" />
+                    <img src={post.image === undefined ? '../../blog-cover-picture.png' : (post.image !== '' ? post.image : '../../blog-cover-picture.png')} alt="Cover-Image" />
                 </div>
                 <div className="postContent">
                     <div className='postInfo'>
