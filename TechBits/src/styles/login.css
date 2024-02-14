@@ -11,6 +11,11 @@
     width: auto;
 }
 
+.login a {
+    color: blue;
+    text-decoration: underline blue;
+}
+
 h1 {
     margin-top: 2px;
 }

@@ -8,8 +8,7 @@ export default function TagEditor({ tags, setTags }) {
     function handleTag(evt) {
         if (evt.key === 'Enter') {
             const fieldValue = evt.target.value;
-            console.log('Value: ', evt.target.value)
-            setTags(currentTags => { currentTags.push(fieldValue); console.log(currentTags); return currentTags })
+            setTags(currentTags => { currentTags.push(fieldValue); return currentTags })
             setAdd(false)
         }
     }

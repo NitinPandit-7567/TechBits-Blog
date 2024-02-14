@@ -12,8 +12,16 @@ export async function handleDelete(evt, id) {
 }
 
 
-export async function handleEditSubmit(evt, id, formData) {
+export async function handleEditSubmit(evt, id, data) {
     evt.preventDefault();
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('summary', data.summary);
+    formData.append('content', data.content);
+    formData.append('tags', JSON.stringify(data.tags));
+    formData.append('status', data.status);
+    formData.append('image', data.image.image);
+    formData.append('deleteImage', JSON.stringify({ image: data.image.oldImage, toDelete: data.image.toDelete }));
     const response = await fetch(`http://localhost:3000/posts/${id}`, {
         method: 'PATCH',
         credentials: 'include',
@@ -22,8 +30,15 @@ export async function handleEditSubmit(evt, id, formData) {
     return await response.json();
 }
 
-export async function handleCreateSubmit(evt, formData) {
+export async function handleCreateSubmit(evt, data) {
     evt.preventDefault();
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('summary', data.summary);
+    formData.append('content', data.content);
+    formData.append('tags', JSON.stringify(data.tags));
+    formData.append('status', data.status);
+    formData.append('image', data.image.image);
     const response = await fetch('http://localhost:3000/posts/new', {
         method: 'POST',
         credentials: 'include',

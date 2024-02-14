@@ -5,6 +5,11 @@
     justify-content: space-around;
 }
 
+.signup a {
+    color: blue;
+    text-decoration: underline blue;
+}
+
 .signup {
     display: block;
     text-align: center;

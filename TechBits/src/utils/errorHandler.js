@@ -13,7 +13,7 @@ export default function errorHandler(res, setError) {
         }
     }
     else {
-        res.error.message = `${error.status}: ${error.message}`;
+        res.error.message = `${res.error.status}: ${res.error.message}`;
         setError(res.error);
         return '/'
     }

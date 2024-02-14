@@ -28,7 +28,7 @@ export default function App() {
         },
         {
             path: '/login',
-            element: <Login setIsLoggedIn={setIsLoggedIn} setBanner={setBanner} />
+            element: <Login setIsLoggedIn={setIsLoggedIn} setBanner={setBanner} setError={setError} error={error} />
         },
 
         {

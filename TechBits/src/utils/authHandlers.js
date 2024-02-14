@@ -40,13 +40,13 @@ export async function handleLogout(isLoggedIn, setIsLoggedIn) {
             clearUserData();
             localStorage.removeItem('isLoggedIn');
             setIsLoggedIn(false);
-            return window.location.reload();
+            return '/';
         }
         else {
             clearUserData();
             localStorage.removeItem('isLoggedIn');
             setIsLoggedIn(false);
-            return window.location.reload();
+            return '/';
         }
     }
 }

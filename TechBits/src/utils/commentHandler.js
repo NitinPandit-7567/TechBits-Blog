@@ -11,7 +11,6 @@ export async function commentDelete(id) {
 
 export async function commentSubmit(evt, id, comment) {
     evt.preventDefault();
-    console.log(`http://localhost:3000/comments/${id}/new`)
     const response = await fetch(`http://localhost:3000/comments/${id}/new`, {
         method: 'POST',
         credentials: 'include',

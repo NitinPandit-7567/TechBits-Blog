@@ -42,8 +42,11 @@ export default function ViewPost({ isLoggedIn, setError }) {
 
         <div className="viewPost">
             {isLoading ? <LinearProgress /> :
-                <><img src={post.image} style={{ width: '100%', height: '50vh' }}></img>
+                <>
                     <div className='post-view'>
+                        <div className="post-Image">
+                            <img src={post.image}></img>
+                        </div>
                         <h1>{post.title}</h1>
                         <div className="postDetails-view">
                             <span><PersonIcon fontSize='small' />{post.author.username}</span>
