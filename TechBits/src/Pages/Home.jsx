@@ -39,7 +39,7 @@ export default function Home() {
                             data.posts && data.posts.map((el) => {
                                 return (<div key={'post' + el._id} id={el._id} className='post-home'>
                                     <a href={`/view/${el._id}`} className='postLink'>
-                                        <img src={el.image !== '' ? '../../blog-cover-picture.png' : el.image} alt="Cover Image" />
+                                        <img src={el.image === '' ? '../../blog-cover-picture.png' : el.image} alt="Cover-Image" />
                                         <div className="content-home">
                                             <div className='info-home'>
                                                 <span><PersonIcon fontSize='small' /> {el.author.username}</span>

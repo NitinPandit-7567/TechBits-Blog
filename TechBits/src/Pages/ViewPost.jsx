@@ -42,39 +42,40 @@ export default function ViewPost({ isLoggedIn, setError }) {
 
         <div className="viewPost">
             {isLoading ? <LinearProgress /> :
-                <div className='post-view'>
-                    <h1>{post.title}</h1>
-                    <div className="postDetails-view">
-                        <span><PersonIcon fontSize='small' />{post.author.username}</span>
-                        <span><CalendarMonthIcon fontSize='small' />{convertDate(post.createdAt)} </span>
-                    </div>
-                    <br></br>
-                    {isAuthor &&
-                        <div className='postEditButtons'> <ButtonGroup variant="contained" aria-label="Basic button group" size="small">
-                            <Button color='warning' id='edit' href={`/edit/${post._id}`}><EditNoteIcon fontSize='small' />Edit</Button>
-                            <Button color='error' id='delete' type='submit' onClick={(evt) => {
-                                handleDelete(evt, id).then((res) => {
-                                    if (!res.error) {
-                                        return navigate('/')
-                                    }
-                                })
-                            }}>
-                                Delete <DeleteIcon fontSize='small' />
-                            </Button>
-                        </ButtonGroup>
-                            <span className='status'><span className={`status-${post.status}`}></span>{post.status[0].toUpperCase() + post.status.substr(1,)}</span>
+                <><img src={post.image} style={{ width: '100%', height: '50vh' }}></img>
+                    <div className='post-view'>
+                        <h1>{post.title}</h1>
+                        <div className="postDetails-view">
+                            <span><PersonIcon fontSize='small' />{post.author.username}</span>
+                            <span><CalendarMonthIcon fontSize='small' />{convertDate(post.createdAt)} </span>
                         </div>
-                    }
-                    <br></br>
-                    <p>{post.summary}</p>
-                    <div className='content-view' dangerouslySetInnerHTML={{ __html: post.content }}></div>
-                    {post.tags.length > 0 &&
-                        <>
-                            <h3>Tags:</h3>
-                            <Tags tags={post.tags} />
-                        </>
-                    }
-                </div >
+                        <br></br>
+                        {isAuthor &&
+                            <div className='postEditButtons'> <ButtonGroup variant="contained" aria-label="Basic button group" size="small">
+                                <Button color='warning' id='edit' href={`/edit/${post._id}`}><EditNoteIcon fontSize='small' />Edit</Button>
+                                <Button color='error' id='delete' type='submit' onClick={(evt) => {
+                                    handleDelete(evt, id).then((res) => {
+                                        if (!res.error) {
+                                            return navigate('/')
+                                        }
+                                    })
+                                }}>
+                                    Delete <DeleteIcon fontSize='small' />
+                                </Button>
+                            </ButtonGroup>
+                                <span className='status'><span className={`status-${post.status}`}></span>{post.status[0].toUpperCase() + post.status.substr(1,)}</span>
+                            </div>
+                        }
+                        <br></br>
+                        <p>{post.summary}</p>
+                        <div className='content-view' dangerouslySetInnerHTML={{ __html: post.content }}></div>
+                        {post.tags.length > 0 &&
+                            <>
+                                <h3>Tags:</h3>
+                                <Tags tags={post.tags} />
+                            </>
+                        }
+                    </div ></>
             }
             <Suspense fallback={<div><CircularProgress sx={{ marginTop: '20px' }} /></div>}>
                 <Likes post={post} setError={setError} />

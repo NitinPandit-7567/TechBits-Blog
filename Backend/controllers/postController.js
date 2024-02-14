@@ -4,6 +4,34 @@ const wrapAsync = require('../utils/wrapAsync');
 const AppError = require('../utils/AppError')
 const Comments = require('../model/comments')
 const Likes = require('../model/likes')
+const fs = require('fs')
+const path = require('path')
+const defaultImage = '../../blog-cover-picture.png';
+// const unlinkAsync = promisify(fs.unlink)
+
+//setup storage for multer
+// const storage = multer.diskStorage({
+//     destination: (req, file, callback) => {
+//         callback(null, '../TechBits/public/uploads/')
+//     },
+//     filename: (req, file, callback) => {
+//         callback(null, file.originalname)
+//     }
+// })
+
+// const upload = multer({ storage: storage })
+
+const unlinkImage = function (image) {
+    if (image !== defaultImage && image !== undefined) {
+        const image_path = (image).split('/')
+        const filename = image_path[image_path.length - 1]
+        const file_path = path.join(__dirname, '../../TechBits/public/uploads/' + filename);
+        fs.unlinkSync(file_path);
+    }
+}
+
+
+
 module.exports.allPosts = wrapAsync(async (req, res, next) => {
     const page = req.query.page || 1;
     const resultsPerPage = req.query.size || 5;
@@ -30,7 +58,7 @@ module.exports.allPosts = wrapAsync(async (req, res, next) => {
             }
             i.commentsCount = comments.length
         }
-        return res.json({ pages, page, size: resultsPerPage, posts });
+        return res.status(200).json({ pages, page, size: resultsPerPage, posts });
     } else {
         return next(new AppError(404, 'Not Found'))
     }
@@ -62,25 +90,35 @@ module.exports.myPosts = wrapAsync(async (req, res, next) => {
             }
             i.commentsCount = comments.length
         }
-        return res.json({ pages, page, size: resultsPerPage, posts });
+        return res.status(200).json({ pages, page, size: resultsPerPage, posts });
     } else {
         return next(new AppError(404, 'Not Found'))
     }
 })
 
 module.exports.newPost = wrapAsync(async (req, res, next) => {
-    const { title, summary, content, tags, status, image } = req.body;
+    let image = defaultImage;
+    if (req.file) {
+        image = '../../uploads/' + req.file.filename;
+    }
+    let { title, summary, content, tags, status } = req.body;
+    if (!tags.length > 0) {
+        tags = []
+    }
+    else {
+        tags = JSON.parse(tags)
+    }
     const author = await Users.findById(req.session.user_id)
     const new_post = new Posts({ author, title, summary, content, tags, status, image });
     await new_post.save()
-    return res.json({ id: new_post._id })
+    return res.status(200).json({ id: new_post._id })
 })
 
 module.exports.getPost = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const post = await Posts.findById(id).populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } });
     if (post) {
-        res.json({ post: post })
+        res.status(200).json({ post: post })
     } else {
         return next(new AppError(404, 'Not Found'))
     }
@@ -89,17 +127,33 @@ module.exports.getPost = wrapAsync(async (req, res, next) => {
 
 module.exports.editPost = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
-    if (req.body.post) {
-        const post = await Posts.findByIdAndUpdate(id, { ...req.body.post }, { runValidators: true, new: true });
-        res.json({ status: 200, message: 'Post Updated' })
+    if (req.body) {
+        let { title, summary, content, tags, status, image, deleteImage } = req.body;
+        deleteImage = JSON.parse(deleteImage)
+        if (req.file) {
+            if (deleteImage.toDelete) {
+                unlinkImage(deleteImage.image)
+            }
+            image = image = '../../uploads/' + req.file.filename;
+        }
+        if (!tags.length > 0) {
+            tags = []
+        } else {
+            tags = JSON.parse(tags)
+        }
+        const post = await Posts.findByIdAndUpdate(id, { title, summary, content, tags, status, image }, { runValidators: true, new: true });
+        res.status(200).json({ status: 200, message: 'Post Updated' })
     }
     else {
-        res.json({ status: 200, message: 'No Changes' })
+        res.status(200).json({ status: 200, message: 'No Changes' })
     }
 })
 
 module.exports.deletePost = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
-    await Posts.findByIdAndDelete(id)
-    res.json({ status: 'success' })
+    const post = await Posts.findByIdAndDelete(id)
+    if (post) {
+        unlinkImage(post.image)
+    }
+    res.status(200).json({ message: 'success' })
 })

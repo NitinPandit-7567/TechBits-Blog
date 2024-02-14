@@ -19,19 +19,19 @@
 }
 
 .cover-home {
-    display: inline-block;
+    display: flex;
     width: 30%;
     overflow: hidden;
     padding: 0;
     margin: 0;
+    border-radius: 10px 10px 0 0;
+    height: 300px;
 }
 
 .cover-home>img {
-    display: inline-block;
-    width: 30%;
-    height: 100%;
-    object-position: center center;
     object-fit: cover;
+    max-width: 100%;
+    min-height: 100%;
 }
 
 .content-home {
