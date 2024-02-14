@@ -26,7 +26,13 @@ const unlinkImage = function (image) {
         const image_path = (image).split('/')
         const filename = image_path[image_path.length - 1]
         const file_path = path.join(__dirname, '../../TechBits/public/uploads/' + filename);
-        fs.unlinkSync(file_path);
+        try { fs.unlinkSync(file_path) } catch (err) {
+            if (err) {
+                console.error(`Error while unlinking image ${filename}:`, err);
+            } else {
+                console.log(`Image ${filename} unlinked successfully.`);
+            }
+        };
     }
 }
 
