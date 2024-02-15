@@ -7,11 +7,12 @@ const userRouter = require('./routes/userRouter')
 const postRouter = require('./routes/postRouter')
 const commentRouter = require('./routes/commentRouter')
 const likeRouter = require('./routes/likeRouter')
-const AppError = requrire('./utils/AppError')
+const AppError = require('./utils/AppError')
+
 const app = express();
+dotenv.config()
 const secret = process.env.TOKEN_SECRET
 
-dotenv.config()
 mongoose.connect('mongodb://127.0.0.1:27017/Blog').then(() => { console.log('Connected to DB...') }).catch((e) => { console.log("Error: ", e) })
 
 app.use(express.json());
