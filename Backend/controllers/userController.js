@@ -10,7 +10,7 @@ module.exports.signUp = wrapAsync(async (req, res, next) => {
         req.session.token = token;
         req.session.user_id = new_user._id;
         res.status(201).json({ username: new_user.username, email: new_user.email, name: new_user.name.full })
-    })
+    }).catch((err) => { next(err) })
 })
 
 module.exports.login = wrapAsync(async (req, res, next) => {
