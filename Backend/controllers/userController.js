@@ -11,6 +11,7 @@ module.exports.signUp = wrapAsync(async (req, res, next) => {
         req.session.user_id = new_user._id;
         res.status(201).json({ username: new_user.username, email: new_user.email, name: new_user.name.full })
     }).catch((err) => {
+        console.dir(err.name)
         if (err.name === 'ValidationError') {
             const message = Object.values(err.errors).map(val => val.message)
             let err_message = message[0]

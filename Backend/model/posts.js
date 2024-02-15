@@ -4,16 +4,16 @@ const postSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
-        required: true
+        required: [true, 'Author is required']
     },
     title: {
         type: String,
         default: 'New Untitled Post',
-        required: true
+        required: [true, 'Title is required']
     },
     summary: {
         type: String,
-        required: true,
+        required: [true, 'Summary is required'],
         default: 'New Post'
     },
     content: String,

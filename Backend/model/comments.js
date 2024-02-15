@@ -3,16 +3,16 @@ const commentSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
-        required: true
+        required: [true, 'Author is required']
     },
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Posts',
-        required: true
+        required: [true, 'Post is required']
     },
     comment: {
         type: String,
-        required: true,
+        required: [true, 'Comment cannot be blank'],
         default: 'New Comment'
     }
 }, { timestamps: true })

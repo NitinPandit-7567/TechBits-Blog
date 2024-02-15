@@ -40,22 +40,22 @@ export default function SignUp({ isLoggedIn, setError }) {
                         return navigate(res)
                     })
                 }}>
-                    <TextField id="firstName" label="First Name" variant="outlined" placeholder='First Name*' fullWidth value={formData.firstName} onChange={handleFormChange} />
+                    <TextField id="firstName" label="First Name" variant="outlined" placeholder='First Name*' fullWidth value={formData.firstName} onChange={handleFormChange} required />
                     <br />
                     <br />
-                    <TextField id="lastName" label="Last Name" variant="outlined" placeholder='Last Name*' fullWidth value={formData.lastName} onChange={handleFormChange} />
+                    <TextField id="lastName" label="Last Name" variant="outlined" placeholder='Last Name*' fullWidth value={formData.lastName} onChange={handleFormChange} required />
                     <br />
                     <br />
-                    <TextField id="email" label="Email" variant="outlined" placeholder='Email*' fullWidth value={formData.email} onChange={handleFormChange} type="email" />
+                    <TextField id="email" label="Email" variant="outlined" placeholder='Email*' fullWidth value={formData.email} onChange={handleFormChange} type="email" required />
                     <br />
                     <br />
-                    <TextField id="username" label="Username" variant="outlined" placeholder='Username*' fullWidth value={formData.username} onChange={handleFormChange} />
+                    <TextField id="username" label="Username" variant="outlined" placeholder='Username*' fullWidth value={formData.username} onChange={handleFormChange} required />
                     <br />
                     <br />
-                    <PasswordInput id="password" label="Password" value={formData.password} placeholder='Password' helperText={helperText} validationError={validationError} handleFormChange={handleFormChange} />
+                    <PasswordInput id="password" label="Password" value={formData.password} placeholder='Password' helperText={helperText} validationError={validationError} handleFormChange={handleFormChange} required />
                     <br />
                     <br />
-                    <PasswordInput id="retypePassword" label="Retype Password" value={formData.retypePassword} placeholder='Retype Password*' helperText={helperText} validationError={validationError} handleFormChange={handleFormChange} />
+                    <PasswordInput id="retypePassword" label="Retype Password" value={formData.retypePassword} placeholder='Retype Password*' helperText={helperText} validationError={validationError} handleFormChange={handleFormChange} required />
                     <br />
                     <br />
                     <Button variant="contained" fullWidth type='Submit'>SIGN UP</Button>

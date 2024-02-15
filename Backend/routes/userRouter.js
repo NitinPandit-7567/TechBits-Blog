@@ -6,8 +6,10 @@ router.route('/sign-up')
     .post(userController.signUp)
 router.route('/login')
     .post(userController.login)
-
 router.route('/logout')
     .post(isloggedIn, userController.logout)
-
+router.route('*')
+    .get((req, res, next) => {
+        return next(new AppError(404, 'Not Found'))
+    })
 module.exports = router;

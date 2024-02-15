@@ -51,10 +51,10 @@ export default function Login({ setIsLoggedIn, setBanner, setError, error }) {
                         }
                     })
                 }}>
-                    <TextField id="username" label="Username" variant="outlined" placeholder='Username*' fullWidth value={formData.username} onChange={handleFormChange} helperText={validationError ? helperText : ''} error={validationError} />
+                    <TextField id="username" label="Username" variant="outlined" placeholder='Username*' fullWidth value={formData.username} onChange={handleFormChange} helperText={validationError ? helperText : ''} error={validationError} required />
                     <br />
                     <br />
-                    <PasswordInput id="password" label="Password" value={formData.password} placeholder='Password' helperText={helperText} validationError={validationError} handleFormChange={handleFormChange} />
+                    <PasswordInput id="password" label="Password" value={formData.password} placeholder='Password' helperText={helperText} validationError={validationError} handleFormChange={handleFormChange} required />
                     <br />
                     <br />
                     <Button variant="contained" fullWidth type='Submit'><VpnKey fontSize='small' sx={{ marginRight: '5px' }} />SIGN IN</Button>

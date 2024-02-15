@@ -9,5 +9,8 @@ router.route('/:id/all')
     .get(commentController.getComments)
 router.route('/:c_id')
     .delete(isLoggedIn, validateAuthor, commentController.deleteComment)
-
+router.route('*')
+    .get((req, res, next) => {
+        return next(new AppError(404, 'Not Found'))
+    })
 module.exports = router

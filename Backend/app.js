@@ -32,10 +32,26 @@ app.use('/comments', commentRouter)
 app.use('/posts', postRouter)
 app.use('/user', userRouter)
 app.get('*', (req, res, next) => {
-    return next(404, 'Page not found!')
+    return next(404, 'Not found!')
 })
 app.use((err, req, res, next) => {
-    const { status = 500, message = 'Internal server error' } = err;
+    let { status = 500, message = 'Internal server error' } = err;
+    if (err.name === 'ValidationError') {
+        status = 400;
+        const messages = Object.values(err.errors).map(val => val.message)
+        message = messages[0]
+        if (messages.length > 2) {
+            message = 'Invalid/Incomplete Data';
+        }
+    }
+    else if (err.name === 'CastError') {
+        message = 'Not Found';
+        status = 404
+    }
+    else if (err.code === 11000) {
+        message = 'Duplicate Key Error';
+        status = 400;
+    }
     res.status(status).json({ error: { status, message } })
 })
 app.listen(3000, () => { console.log('Listening on port 3000...'); })

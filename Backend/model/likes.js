@@ -3,16 +3,16 @@ const likeSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
-        required: true
+        required: [true, 'Author is required']
     },
     post: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Posts',
-        required: true
+        required: [true, 'Post is required']
     },
     like: {
         type: Boolean,
-        required: true,
+        required: [true, 'Like is required'],
         default: false
     }
 }, { timestamps: true })
