@@ -13,7 +13,11 @@ module.exports.signUp = wrapAsync(async (req, res, next) => {
     }).catch((err) => {
         if (err.name === 'ValidationError') {
             const message = Object.values(err.errors).map(val => val.message)
-            return next(new AppError(400, message[0]))
+            let err_message = message[0]
+            if (message.length > 2) {
+                err_message = 'Invalid/Incomplete Data'
+            }
+            return next(new AppError(400, err_message))
         }
         else {
             return next(new AppError(400, 'This username is already taken, please enter a different one.'))
@@ -23,15 +27,21 @@ module.exports.signUp = wrapAsync(async (req, res, next) => {
 
 module.exports.login = wrapAsync(async (req, res, next) => {
     const { username, password } = req.body;
-    const validation = await Users.findAndValidate(username.toLowerCase(), password);
-    if (validation) {
-        const token = jwt.sign({ token: validation.username }, process.env.TOKEN_SECRET, { expiresIn: '5h' });
-        req.session.token = token;
-        req.session.user_id = validation._id
-        res.status(200).json({ username: validation.username, email: validation.email, name: validation.name.full })
+    if (username && password) {
+        const validation = await Users.findAndValidate(username.toString().toLowerCase(), password.toString());
+        if (validation) {
+            const token = jwt.sign({ token: validation.username }, process.env.TOKEN_SECRET, { expiresIn: '5h' });
+            req.session.token = token;
+            req.session.user_id = validation._id
+            res.status(200).json({ username: validation.username, email: validation.email, name: validation.name.full })
+
+        }
+        else {
+            return next(new AppError(401, 'Invalid Credentials'))
+        }
     }
     else {
-        return next(new AppError(401, 'Invalid Credentials'))
+        return next(new AppError(400, 'Username/Password cannot be blank'))
     }
 })
 
