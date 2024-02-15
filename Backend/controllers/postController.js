@@ -144,7 +144,7 @@ module.exports.editPost = wrapAsync(async (req, res, next) => {
         }
         if (!tags.length > 0) {
             tags = []
-        } else {
+        } else if (!Array.isArray(tags)) {
             tags = JSON.parse(tags)
         }
         const post = await Posts.findByIdAndUpdate(id, { title, summary, content, tags, status, image }, { runValidators: true, new: true });
