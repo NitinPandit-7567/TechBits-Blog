@@ -10,7 +10,15 @@ module.exports.signUp = wrapAsync(async (req, res, next) => {
         req.session.token = token;
         req.session.user_id = new_user._id;
         res.status(201).json({ username: new_user.username, email: new_user.email, name: new_user.name.full })
-    }).catch((err) => { next(new AppError(400, 'This username is already taken, please enter a different one.')) })
+    }).catch((err) => {
+        if (err.name === 'ValidationError') {
+            const message = Object.values(err.errors).map(val => val.message)
+            return next(new AppError(400, message[0]))
+        }
+        else {
+            return next(new AppError(400, 'This username is already taken, please enter a different one.'))
+        }
+    })
 })
 
 module.exports.login = wrapAsync(async (req, res, next) => {
