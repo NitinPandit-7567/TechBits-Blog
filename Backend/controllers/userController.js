@@ -15,7 +15,7 @@ module.exports.signUp = wrapAsync(async (req, res, next) => {
 
 module.exports.login = wrapAsync(async (req, res, next) => {
     const { username, password } = req.body;
-    const validation = await Users.findAndValidate(username, password);
+    const validation = await Users.findAndValidate(username.toLowerCase(), password);
     if (validation) {
         const token = jwt.sign({ token: validation.username }, process.env.TOKEN_SECRET, { expiresIn: '5h' });
         req.session.token = token;
