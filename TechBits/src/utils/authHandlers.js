@@ -2,7 +2,7 @@ import { clearUserData } from '../utils/UserData'
 export async function handleSignUp(evt, formData) {
     evt.preventDefault();
     const finalFormData = { username: formData.username, name: { first: formData.firstName, last: formData.lastName }, email: formData.email, password: formData.password }
-    const signUpResponse = await fetch('http://localhost:3000/sign-up', {
+    const signUpResponse = await fetch('http://localhost:3000/user/sign-up', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -15,7 +15,7 @@ export async function handleSignUp(evt, formData) {
 
 export async function handleLogIn(evt, formData) {
     evt.preventDefault();
-    const response = await fetch('http://localhost:3000/login', {
+    const response = await fetch('http://localhost:3000/user/login', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -28,7 +28,7 @@ export async function handleLogIn(evt, formData) {
 
 export async function handleLogout(isLoggedIn, setIsLoggedIn) {
     if (isLoggedIn) {
-        const response = await fetch('http://localhost:3000/logout', {
+        const response = await fetch('http://localhost:3000/user/logout', {
             method: 'POST',
             credentials: 'include',
             headers: {

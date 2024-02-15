@@ -29,7 +29,7 @@ app.use(cors({
 app.use('/likes', likeRouter)
 app.use('/comments', commentRouter)
 app.use('/posts', postRouter)
-app.use('/', userRouter)
+app.use('/user', userRouter)
 
 app.use((err, req, res, next) => {
     const { status = 500, message = 'Internal server error' } = err;
