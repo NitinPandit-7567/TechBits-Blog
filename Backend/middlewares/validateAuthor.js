@@ -10,7 +10,7 @@ module.exports = async function (req, res, next) {
         if (req.session.user_id) {
             if (url[url.length - 2] === 'comments') {
                 const { c_id } = req.params;
-                const comment = await Comments.findById(c_id)
+                const comment = await Comments.findById(c_id).catch((err) => { return next(err) })
                 if (comment) {
                     if (req.session.user_id === comment.author._id.toString()) {
                         return next()
@@ -25,7 +25,7 @@ module.exports = async function (req, res, next) {
             }
             else if (url[url.length - 2] === 'likes') {
                 const { l_id } = req.params;
-                const like = await Likes.findById(l_id)
+                const like = await Likes.findById(l_id).catch((err) => { return next(err) })
                 if (like) {
                     if (req.session.user_id === like.author._id.toString()) {
                         return next()
