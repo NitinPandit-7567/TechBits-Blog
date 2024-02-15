@@ -9,7 +9,7 @@ module.exports.signUp = wrapAsync(async (req, res, next) => {
         const token = jwt.sign({ token: username }, process.env.TOKEN_SECRET, { expiresIn: '5h' });
         req.session.token = token;
         req.session.user_id = new_user._id;
-        res.json({ username: new_user.username, email: new_user.email, name: new_user.name.full })
+        res.status(201).json({ username: new_user.username, email: new_user.email, name: new_user.name.full })
     })
 })
 
@@ -20,7 +20,7 @@ module.exports.login = wrapAsync(async (req, res, next) => {
         const token = jwt.sign({ token: validation.username }, process.env.TOKEN_SECRET, { expiresIn: '5h' });
         req.session.token = token;
         req.session.user_id = validation._id
-        res.json({ username: validation.username, email: validation.email, name: validation.name.full })
+        res.sttus(200).json({ username: validation.username, email: validation.email, name: validation.name.full })
     }
     else {
         return next(new AppError(401, 'Invalid Credentials'))
@@ -30,5 +30,5 @@ module.exports.login = wrapAsync(async (req, res, next) => {
 module.exports.logout = (req, res, next) => {
     req.session.token = null;
     req.session.user_id = null;
-    res.json({ status: 200, message: 'Logged Out' })
+    res.status(200).json({ status: 200, message: 'Logged Out' })
 }

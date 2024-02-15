@@ -117,7 +117,7 @@ module.exports.newPost = wrapAsync(async (req, res, next) => {
     const author = await Users.findById(req.session.user_id)
     const new_post = new Posts({ author, title, summary, content, tags, status, image });
     await new_post.save()
-    return res.status(200).json({ id: new_post._id })
+    return res.status(201).json({ id: new_post._id })
 })
 
 module.exports.getPost = wrapAsync(async (req, res, next) => {
@@ -151,7 +151,7 @@ module.exports.editPost = wrapAsync(async (req, res, next) => {
         res.status(200).json({ status: 200, message: 'Post Updated' })
     }
     else {
-        res.status(200).json({ status: 200, message: 'No Changes' })
+        res.status(204).json({ status: 200, message: 'No Changes' })
     }
 })
 
