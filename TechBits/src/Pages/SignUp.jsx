@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
 import { Button, TextField, Alert, LinearProgress } from '@mui/material/';
-import { setUserData } from '../utils/UserData'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PasswordInput from '../Components/PasswordInput';
 import '../styles/signup.css'
 import { handleSignUp } from '../utils/authHandlers';
-import { useNavigate } from 'react-router-dom'
-export default function SignUp() {
+import { useNavigate, Navigate } from 'react-router-dom'
+export default function SignUp({ isLoggedIn, setError }) {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ firstName: '', lastName: '', username: '', password: '', retypePassword: '', email: '' })
     const [validationError, setValidationError] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const helperText = 'Passwords do not match.';
+    if (isLoggedIn) {
+        return <Navigate to={'/'} />
+    }
     useEffect(() => {
         if (formData.retypePassword !== '' && formData.retypePassword !== formData.password) {
             setValidationError(true)
@@ -33,14 +35,9 @@ export default function SignUp() {
                 <h1>Sign Up</h1>
                 {validationError && <><Alert severity="error">Passwords do not match. Kindly re-enter the passwords.</Alert> <br /></>}
                 <form onSubmit={(evt) => {
-                    handleSignUp(evt, formData).then((res) => {
-                        setIsLoading(true)
-                        if (!res.error) {
-                            setUserData(res)
-                            localStorage.setItem('isLoggedIn', true)
-                            setIsLoading(false)
-                            return navigate('/')
-                        }
+                    setIsLoading(true);
+                    handleSignUp(evt, formData, setIsLoading, setError).then((res) => {
+                        return navigate(res)
                     })
                 }}>
                     <TextField id="firstName" label="First Name" variant="outlined" placeholder='First Name*' fullWidth value={formData.firstName} onChange={handleFormChange} />

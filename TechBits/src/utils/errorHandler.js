@@ -12,6 +12,10 @@ export default function errorHandler(res, setError) {
             return '/login'
         }
     }
+    else if (Number(res.error.status) === 400) {
+        setError({ message: res.error.message })
+        return '/signUp'
+    }
     else {
         res.error.message = `${res.error.status}: ${res.error.message}`;
         setError(res.error);

@@ -1,5 +1,6 @@
-import { clearUserData } from '../utils/UserData'
-export async function handleSignUp(evt, formData) {
+import { clearUserData, setUserData } from '../utils/UserData'
+import errorHandler from './errorHandler';
+export async function handleSignUp(evt, formData, setIsLoading, setError) {
     evt.preventDefault();
     const finalFormData = { username: formData.username, name: { first: formData.firstName, last: formData.lastName }, email: formData.email, password: formData.password }
     const signUpResponse = await fetch('http://localhost:3000/user/sign-up', {
@@ -10,7 +11,17 @@ export async function handleSignUp(evt, formData) {
         },
         body: JSON.stringify(finalFormData)
     })
-    return await signUpResponse.json();
+    const res = await signUpResponse.json();
+    if (!res.error) {
+        setUserData(res)
+        localStorage.setItem('isLoggedIn', true)
+        setIsLoading(false)
+        return '/'
+    }
+    else {
+        setIsLoading(false)
+        return errorHandler(res, setError)
+    }
 }
 
 export async function handleLogIn(evt, formData) {
