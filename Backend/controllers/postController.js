@@ -108,11 +108,13 @@ module.exports.newPost = wrapAsync(async (req, res, next) => {
         image = '../../uploads/' + req.file.filename;
     }
     let { title, summary, content, tags, status } = req.body;
-    if (!tags.length > 0) {
-        tags = []
-    }
-    else {
-        tags = JSON.parse(tags)
+    if (tags) {
+        if (!tags.length > 0) {
+            tags = []
+        }
+        else {
+            tags = JSON.parse(tags)
+        }
     }
     const author = await Users.findById(req.session.user_id)
     const new_post = new Posts({ author, title, summary, content, tags, status, image });
