@@ -10,8 +10,13 @@ export default function Comments({ post, isLoggedIn, setError }) {
     useEffect(() => {
         fetchComments(post._id).then((res) => {
             if (!res.error) {
-                if (res.comments.length > 0) {
-                    return setComments(res.comments)
+                if (res.status === 200) {
+                    if (res.comments.length > 0) {
+                        return setComments(res.comments)
+                    }
+                }
+                else if (res.status === 204) {
+                    return setComments([])
                 }
             }
             else {
@@ -35,9 +40,9 @@ export default function Comments({ post, isLoggedIn, setError }) {
                     {/* Checking if there are any comments to be displayed */}
                     {/* Checking if there are any comments to display the count */}
                     {!isLoggedIn && <h3>{comments.length > 0 ? (`${comments.length} Comments:`) : ''}</h3>}
-                    {comments.length > 0 && comments.map((el, i) => {
+                    {comments.length > 0 ? comments.map((el, i) => {
                         return <DisplayComments comments={el} key={i.toString() + '_' + comments._id} setError={setError} />
-                    })}
+                    }) : 'There are no comments yet.'}
                 </div>
             </div>
         </div>

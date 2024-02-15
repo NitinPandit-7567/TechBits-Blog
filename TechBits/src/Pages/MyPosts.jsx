@@ -27,7 +27,6 @@ export default function MyPosts({ isLoggedIn }) {
         getMyPosts(pages.page, setData, setPages).then(() => { setIsLoading(false) })
 
     }, [searchParams])
-    console.log(data.posts)
     return (<>
         {data ?
             <div className='myPosts'>

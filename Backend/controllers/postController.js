@@ -7,19 +7,7 @@ const Likes = require('../model/likes')
 const fs = require('fs')
 const path = require('path')
 const defaultImage = '../../blog-cover-picture.png';
-// const unlinkAsync = promisify(fs.unlink)
 
-//setup storage for multer
-// const storage = multer.diskStorage({
-//     destination: (req, file, callback) => {
-//         callback(null, '../TechBits/public/uploads/')
-//     },
-//     filename: (req, file, callback) => {
-//         callback(null, file.originalname)
-//     }
-// })
-
-// const upload = multer({ storage: storage })
 
 const unlinkImage = function (image) {
     if (image !== defaultImage && image !== undefined) {
