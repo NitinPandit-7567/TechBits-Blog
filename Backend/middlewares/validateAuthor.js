@@ -16,7 +16,7 @@ module.exports = async function (req, res, next) {
                         return next()
                     }
                     else {
-                        return next(new AppError(401, 'Not Authorized'))
+                        return next(new AppError(403, 'Not Authorized'))
                     }
                 }
                 else {
@@ -31,7 +31,7 @@ module.exports = async function (req, res, next) {
                         return next()
                     }
                     else {
-                        return next(new AppError(401, 'Not Authorized'))
+                        return next(new AppError(403, 'Not Authorized'))
                     }
                 }
                 else {
@@ -45,7 +45,7 @@ module.exports = async function (req, res, next) {
                         return next()
                     }
                     else {
-                        return next(new AppError(401, 'Not Authorized'))
+                        return next(new AppError(403, 'Not Authorized'))
                     }
                 }
                 else {
