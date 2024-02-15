@@ -142,10 +142,13 @@ module.exports.editPost = wrapAsync(async (req, res, next) => {
             }
             image = image = '../../uploads/' + req.file.filename;
         }
-        if (!tags.length > 0) {
-            tags = []
-        } else if (!Array.isArray(tags)) {
-            tags = JSON.parse(tags)
+        if (tags) {
+            if (!tags.length > 0) {
+                tags = []
+            }
+            else if (!Array.isArray(tags)) {
+                tags = JSON.parse(tags);
+            }
         }
         const post = await Posts.findByIdAndUpdate(id, { title, summary, content, tags, status, image }, { runValidators: true, new: true });
         res.status(200).json({ status: 200, message: 'Post Updated' })
