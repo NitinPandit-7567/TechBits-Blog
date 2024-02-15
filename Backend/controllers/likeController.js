@@ -21,8 +21,8 @@ module.exports.newLike = wrapAsync(async (req, res, next) => {
 
 module.exports.updateLike = wrapAsync(async (req, res, next) => {
     const { l_id } = req.params;
-    if ((req.body.like).toString()) {
-        const like = await Likes.findByIdAndUpdate(l_id, { like: req.body.like }, { runValidators: true, new: true });
+    if (req.body.like !== undefined && ((req.body.like).toString() === 'false' || (req.body.like).toString() === 'true')) {
+        await Likes.findByIdAndUpdate(l_id, { like: req.body.like }, { runValidators: true, new: true });
         res.status(200).json({ status: 200, message: 'Like Updated' })
     }
     else {
