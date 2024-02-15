@@ -137,8 +137,8 @@ module.exports.editPost = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     if (req.body) {
         let { title, summary, content, tags, status, image, deleteImage } = req.body;
-        deleteImage = JSON.parse(deleteImage)
         if (req.file) {
+            deleteImage = JSON.parse(deleteImage)
             if (deleteImage.toDelete) {
                 unlinkImage(deleteImage.image)
             }
@@ -162,9 +162,11 @@ module.exports.editPost = wrapAsync(async (req, res, next) => {
 
 module.exports.deletePost = wrapAsync(async (req, res, next) => {
     const { id } = req.params;
-    const post = await Posts.findByIdAndDelete(id)
+    const post = await Posts.findByIdAndDelete(id).catch((err) => { return next(err) });
     if (post) {
         unlinkImage(post.image)
+        return res.status(200).json({ status: 200, message: 'success' })
+    } else {
+        return next(404, 'Not Found')
     }
-    res.status(200).json({ message: 'success' })
 })

@@ -39,7 +39,7 @@ module.exports = async function (req, res, next) {
                 }
             }
             else {
-                const post = await Posts.findById(id);
+                const post = await Posts.findById(id).catch((err) => { return next(err) });
                 if (post) {
                     if (req.session.user_id === post.author._id.toString()) {
                         return next()

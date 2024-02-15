@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Comments = require('./comments.js')
+const Likes = require('./likes.js')
 const postSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +33,7 @@ const postSchema = mongoose.Schema({
 postSchema.post('findOneAndDelete', async (deletePost) => {
     if (deletePost) {
         await Comments.deleteMany({ post: { _id: deletePost._id } })
+        await Likes.deleteMany({ post: { _id: deletePost._id } })
     }
 })
 
