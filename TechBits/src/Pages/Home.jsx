@@ -6,38 +6,31 @@ import PostCard from '../Components/PostCard';
 import '../styles/home.css'
 export default function Home() {
     let [searchParams, setSearchParams] = useSearchParams();
-    const [data, setData] = useState(false)
+    const [data, setData] = useState({})
     const [pages, setPages] = useState({ page: Number(searchParams.get('page')) || 1, totalPages: Number(data.pages) || 1 })
     const [isLoading, setIsLoading] = useState(true);
     function handleChange(evt, value) {
         setSearchParams({ page: value })
         return setPages((currentPage) => { return { ...currentPage, page: value } })
     }
-
-    useEffect(() => {
-        getAllPosts(pages.page, setData, setPages).then(() => { setIsLoading(false) })
-    }, [])
-
     useEffect(() => {
         setIsLoading(true)
         getAllPosts(pages.page, setData, setPages).then(() => { setIsLoading(false) })
 
     }, [searchParams])
     return (<>
-        {data ?
             <div className='home'>
-                <div className='allPosts'>
                     {isLoading ? <CircularProgress /> :
-                        <>
+                    (data && data.posts.length>0 ? 
+                        <div className='allPosts'>
                             {
-                                data.posts && data.posts.map((el) => {
+                                data.posts.map((el) => {
                                     return <PostCard key={el._id} post={el} />
                                 })
                             }
                             < Pagination count={pages.totalPages} page={pages.page} onChange={handleChange} />
-                        </>
-                    }
-                </div >
-            </div > : <div className='noPosts'><h3>There are no posts yet. Create a new post <a href='/create'>here!</a></h3></div>}
-    </>)
+                        </div>
+                     : <div className='noPosts'><h3>There are no posts yet. Create a new post <a href='/create'>here!</a></h3></div>)}
+            </div > : 
+        </>)
 }

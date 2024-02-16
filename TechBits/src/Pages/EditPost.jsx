@@ -16,11 +16,11 @@ export default function EditPost({ isLoggedIn, setError }) {
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
     const [tags, setTags] = useState([]);
-    const [status, setStatus] = useState('')
+    const [status, setStatus] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [isSubmitLoading, setIsSubmitLoading] = useState(false)
-    const [image, setImage] = useState('')
-    const [uploadedFileURL, setUploadedFileURL] = useState(false)
+    const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+    const [image, setImage] = useState({});
+    const [uploadedFileURL, setUploadedFileURL] = useState({});
     const navigate = useNavigate();
     const imageHandler = function (evt) {
         setImage((currentData) => { return { ...currentData, image: evt.target.files[0], toDelete: true } });

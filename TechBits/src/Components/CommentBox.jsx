@@ -6,19 +6,20 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router';
 import { commentSubmit } from '../utils/commentHandler';
 import errorHandler from '../utils/errorHandler';
-export default function CommentBox({ postId, setError }) {
-    const [comment, setComment] = useState({ comment: '' })
+export default function CommentBox({ postId, setComments, setError }) {
+    const [commentBox, setCommentBox] = useState({ comment: '' })
     const navigate = useNavigate()
     function handleChange(evt) {
         const value = evt.target.value
         const field = evt.target.id;
-        return setComment(currentData => { return { [field]: value } })
+        return setCommentBox(currentData => { return { [field]: value } })
     }
     return (<div className='CommentBox'>
         <form onSubmit={(evt) => {
-            return commentSubmit(evt, postId, comment).then((res) => {
+            commentSubmit(evt, postId, commentBox).then((res) => {
                 if (!res.error) {
-                    return window.location.reload();
+                    setComments((currentData)=>{return [...currentData,res.comment]})
+                    setCommentBox({comment: ''})
                 } else {
                     return navigate(errorHandler(res, setError))
                 }
@@ -34,7 +35,7 @@ export default function CommentBox({ postId, setError }) {
                         <Avatar sx={{ width: 24, height: 24, fontSize: 'small' }}>{getInitials(getUserData())}</Avatar>
                     </InputAdornment>
                 }
-                value={comment.comment}
+                value={commentBox.comment}
                 required
                 fullWidth
                 onChange={handleChange}

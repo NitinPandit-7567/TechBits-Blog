@@ -13,7 +13,6 @@ const commentSchema = mongoose.Schema({
     comment: {
         type: String,
         required: [true, 'Comment cannot be blank'],
-        default: 'New Comment'
     }
 }, { timestamps: true })
 

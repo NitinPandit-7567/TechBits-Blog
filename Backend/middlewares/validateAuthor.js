@@ -20,6 +20,7 @@ module.exports = async function (req, res, next) {
                     }
                 }
                 else {
+                    console.log('here')
                     return next(new AppError(404, 'Not Found'))
                 }
             }
@@ -35,6 +36,7 @@ module.exports = async function (req, res, next) {
                     }
                 }
                 else {
+                    console.log('here')
                     return next(new AppError(404, 'Not Found'))
                 }
             }

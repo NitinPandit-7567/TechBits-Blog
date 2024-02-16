@@ -5,7 +5,7 @@ import { fetchComments } from '../utils/fetchData';
 import errorHandler from '../utils/errorHandler';
 import { useNavigate } from 'react-router-dom';
 export default function Comments({ post, isLoggedIn, setError }) {
-    const [comments, setComments] = useState('')
+    const [comments, setComments] = useState([])
     const navigate = useNavigate()
     useEffect(() => {
         fetchComments(post._id).then((res) => {
@@ -37,11 +37,10 @@ export default function Comments({ post, isLoggedIn, setError }) {
             }
             <div className="postComments">
                 <div className="allComments">
-                    {/* Checking if there are any comments to be displayed */}
                     {/* Checking if there are any comments to display the count */}
                     {!isLoggedIn && <h3>{comments.length > 0 ? (`${comments.length} Comments:`) : ''}</h3>}
                     {comments.length > 0 ? comments.map((el, i) => {
-                        return <DisplayComments comments={el} key={i.toString() + '_' + comments._id} setError={setError} />
+                        return <DisplayComments comments={el} key={i.toString() + '_' + comments._id} setError={setError} setComments={setComments} />
                     }) : 'There are no comments yet.'}
                 </div>
             </div>

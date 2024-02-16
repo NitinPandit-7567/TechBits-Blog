@@ -9,13 +9,11 @@ const postSchema = mongoose.Schema({
     },
     title: {
         type: String,
-        default: 'New Untitled Post',
         required: [true, 'Title is required']
     },
     summary: {
         type: String,
-        required: [true, 'Summary is required'],
-        default: 'New Post'
+        required: [true, 'Summary is required']
     },
     content: String,
     image: String,

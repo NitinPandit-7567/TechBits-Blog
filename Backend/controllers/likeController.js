@@ -11,7 +11,7 @@ module.exports.newLike = wrapAsync(async (req, res, next) => {
     if (user !== null && post !== null && post.status !== 'draft') {
         const like = new Likes({ like: req.body.like, author: user._id, post: post._id })
         await like.save();
-        return res.status(201).json({ status: 201, message: 'Like Created' })
+        return res.status(201).json({ status: 201, _id: like._id })
     }
     else {
         return next(new AppError(404, 'Not Found'))
@@ -52,7 +52,7 @@ module.exports.getLikes = wrapAsync(async (req, res, next) => {
         return res.status(200).json({ ...result })
     }
     else {
-        return res.status(204).json({ status: 204, message: 'There are no Likes yet' })
+        return res.status(200).json({ status: 200, message: 'There are no Likes yet' })
     }
 
 })

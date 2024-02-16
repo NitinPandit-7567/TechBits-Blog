@@ -11,8 +11,8 @@ export default function CreatePost({ isLoggedIn, setError }) {
     const [tags, setTags] = useState([]);
     const [status, setStatus] = useState('')
     const [isSubmitLoading, setIsSubmitLoading] = useState(false)
-    const [image, setImage] = useState('')
-    const [uploadedFileURL, setUploadedFileURL] = useState(false)
+    const [image, setImage] = useState({})
+    const [uploadedFileURL, setUploadedFileURL] = useState({})
     const navigate = useNavigate();
     const handleSubmit = async function (evt) {
         const data = { title, summary, content, tags, status, image }

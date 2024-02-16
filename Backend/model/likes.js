@@ -13,7 +13,6 @@ const likeSchema = mongoose.Schema({
     like: {
         type: Boolean,
         required: [true, 'Like is required'],
-        default: false
     }
 }, { timestamps: true })
 

@@ -10,7 +10,8 @@ module.exports.newComment = wrapAsync(async (req, res, next) => {
     if (user !== null && post !== null && post.status !== 'draft') {
         const comment = new Comments({ ...req.body, author: user._id, post: post._id })
         await comment.save();
-        return res.status(201).json({ status: 201, message: 'Comment Created' })
+        await comment.populate({ path: 'author', select: { '_id': 1, 'username': 1, 'email': 1, 'name': 1 } })
+        return res.status(201).json({ status: 201, comment: comment})
     }
     else {
         return next(new AppError(404, 'Not Found'))
