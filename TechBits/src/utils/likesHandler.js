@@ -1,6 +1,7 @@
 export default async function likeHandler(evt, likes, post_id, setError) {
-    if (evt.target.id === 'like' || evt.target.id === 'dislike') {
-        const data = (evt.target.id === 'like') ? true : false;
+    const id = evt.target.parentNode.id || evt.target.id;
+    if (id === 'like' || id === 'dislike') {
+        const data = (id === 'like') ? true : false;
         if (likes._id) {
             if (data !== likes.isLiked) {
                 const response = await fetch(`http://localhost:3000/likes/${likes._id}`, {
@@ -35,5 +36,4 @@ export default async function likeHandler(evt, likes, post_id, setError) {
             return await response.json();
         }
     }
-
 }

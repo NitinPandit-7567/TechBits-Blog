@@ -45,18 +45,6 @@ module.exports.allPosts = wrapAsync(async (req, res, next) => {
   if (posts && posts.length > 0) {
     for (let i of posts) {
       const comments = await Comments.find({ post: { _id: i._id } });
-      const likes = await Likes.find({ post: { _id: i._id } });
-      i.likeCount = 0;
-      i.dislikeCount = 0;
-      if (likes.length > 0) {
-        for (let j of likes) {
-          if (j.like) {
-            i.likeCount += 1;
-          } else {
-            i.dislikeCount += 1;
-          }
-        }
-      }
       i.commentsCount = comments.length;
     }
     return res.status(200).json({ pages, page, size: resultsPerPage, posts });
@@ -81,18 +69,6 @@ module.exports.myPosts = wrapAsync(async (req, res, next) => {
     .populate({ path: "author", select: { _id: 1, username: 1 } });
   for (let i of posts) {
     const comments = await Comments.find({ post: { _id: i._id } });
-    const likes = await Likes.find({ post: { _id: i._id } });
-    i.likeCount = 0;
-    i.dislikeCount = 0;
-    if (likes.length > 0) {
-      for (let j of likes) {
-        if (j.like) {
-          i.likeCount += 1;
-        } else {
-          i.dislikeCount += 1;
-        }
-      }
-    }
     i.commentsCount = comments.length;
   }
   return res.status(200).json({ pages, page, size: resultsPerPage, posts });

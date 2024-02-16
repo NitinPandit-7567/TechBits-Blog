@@ -128,9 +128,12 @@
 }
 
 .postLikes {
-    width: 50%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.view-likes{
+    width: 50%;
 }
