@@ -47,10 +47,8 @@ module.exports.allPosts = wrapAsync(async (req, res, next) => {
       const comments = await Comments.find({ post: { _id: i._id } });
       i.commentsCount = comments.length;
     }
-    return res.status(200).json({ pages, page, size: resultsPerPage, posts });
-  } else {
-    return next(new AppError(404, "Not Found"));
   }
+  return res.status(200).json({ pages, page, size: resultsPerPage, posts });
 });
 
 module.exports.myPosts = wrapAsync(async (req, res, next) => {
@@ -116,32 +114,28 @@ module.exports.getPost = wrapAsync(async (req, res, next) => {
 
 module.exports.editPost = wrapAsync(async (req, res, next) => {
   const { id } = req.params;
-  if (req.body) {
-    let { title, summary, content, tags, status, image, deleteImage } =
-      req.body;
-    if (req.file) {
-      deleteImage = JSON.parse(deleteImage);
-      if (deleteImage.toDelete) {
-        unlinkImage(deleteImage.image);
-      }
-      image = image = "../../uploads/" + req.file.filename;
+  let { title, summary, content, tags, status, image} = req.body;
+  if (req.file) {
+    let {deleteImage} = req.body;
+    deleteImage = JSON.parse(deleteImage);
+    if (deleteImage.toDelete) {
+      unlinkImage(deleteImage.image);
     }
-    if (tags) {
-      if (!tags.length > 0) {
-        tags = [];
-      } else if (!Array.isArray(tags)) {
-        tags = JSON.parse(tags);
-      }
-    }
-    const post = await Posts.findByIdAndUpdate(
-      id,
-      { title, summary, content, tags, status, image },
-      { runValidators: true, new: true }
-    );
-    res.status(200).json({ status: 200, message: "Post Updated" });
-  } else {
-    res.status(204).json({ status: 200, message: "No Changes" });
+    image = image = "../../uploads/" + req.file.filename;
   }
+  if (tags) {
+    if (!tags.length > 0) {
+      tags = [];
+    } else if (!Array.isArray(tags)) {
+      tags = JSON.parse(tags);
+    }
+  }
+  const post = await Posts.findByIdAndUpdate(
+    id,
+    { title, summary, content, tags, status, image },
+    { runValidators: true, new: true }
+  );
+  res.status(200).json({ status: 200, message: "Post Updated" });
 });
 
 module.exports.deletePost = wrapAsync(async (req, res, next) => {

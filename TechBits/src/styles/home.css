@@ -44,7 +44,7 @@
 .postContent {
   display: inline-block;
   width: 50%;
-  max-height: 400px;
+  /* max-height: 400px; */
   padding: 1%;
   color: inherit;
   row-gap: 10px;

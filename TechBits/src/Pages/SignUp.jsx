@@ -5,7 +5,7 @@ import PasswordInput from "../Components/PasswordInput";
 import "../styles/signup.css";
 import { handleSignUp } from "../utils/authHandlers";
 import { useNavigate, Navigate } from "react-router-dom";
-export default function SignUp({ isLoggedIn, setError }) {
+export default function SignUp({ isLoggedIn, setError, setIsLoggedIn }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -57,7 +57,13 @@ export default function SignUp({ isLoggedIn, setError }) {
         <form
           onSubmit={(evt) => {
             setIsLoading(true);
-            handleSignUp(evt, formData, setIsLoading, setError).then((res) => {
+            handleSignUp(
+              evt,
+              formData,
+              setIsLoading,
+              setError,
+              setIsLoggedIn
+            ).then((res) => {
               return navigate(res);
             });
           }}

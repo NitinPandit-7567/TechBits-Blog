@@ -18,8 +18,7 @@ const postSchema = mongoose.Schema({
     content: String,
     image: String,
     tags: {
-        type: Array,
-        default: 'other'
+        type: Array
     },
     status: {
         type: String,

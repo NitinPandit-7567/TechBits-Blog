@@ -1,6 +1,6 @@
 import { clearUserData, setUserData } from "../utils/UserData";
 import errorHandler from "./errorHandler";
-export async function handleSignUp(evt, formData, setIsLoading, setError) {
+export async function handleSignUp(evt, formData, setIsLoading, setError, setIsLoggedIn) {
   evt.preventDefault();
   const finalFormData = {
     //setting formData
@@ -23,6 +23,7 @@ export async function handleSignUp(evt, formData, setIsLoading, setError) {
     //if no error, set userData and isLoggedin to true
     setUserData(res);
     localStorage.setItem("isLoggedIn", true);
+    setIsLoggedIn(true)
     setIsLoading(false);
     return "/";
   } else {
