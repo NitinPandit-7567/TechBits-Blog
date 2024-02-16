@@ -28,6 +28,7 @@ export default function ViewPost({ isLoggedIn, setError, setBanner }) {
   });
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  //Loading data on render by making a GET request to the post API with the post ID
   useEffect(() => {
     fetchPost(id).then((res) => {
       if (!res.error) {
@@ -75,7 +76,7 @@ export default function ViewPost({ isLoggedIn, setError, setBanner }) {
               </span>
             </div>
             <br></br>
-            {isAuthor && (
+            {isAuthor && ( //if author, render edit and delete buttons and display post status
               <div className="postEditButtons">
                 {" "}
                 <ButtonGroup
@@ -126,6 +127,7 @@ export default function ViewPost({ isLoggedIn, setError, setBanner }) {
           </div>
         </>
       )}
+      {/* Lazy Loading likes and comments components */}
       <Suspense
         fallback={
           <div>
@@ -134,8 +136,8 @@ export default function ViewPost({ isLoggedIn, setError, setBanner }) {
         }
       >
         <div className="likesWrapper">
-            <div className="view-likes">
-          <Likes post={post} setError={setError} isLoggedIn={isLoggedIn} />
+          <div className="view-likes">
+            <Likes post={post} setError={setError} isLoggedIn={isLoggedIn} />
           </div>
         </div>
         <Comments

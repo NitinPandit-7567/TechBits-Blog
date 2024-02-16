@@ -5,7 +5,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { CircularProgress, IconButton } from "@mui/material";
 import React, { Suspense } from "react";
 const Likes = React.lazy(() => import("./Likes"));
-export default function PostCard({ post, setError, isLoggedIn}) {
+export default function PostCard({ post, setError, isLoggedIn }) {
   return (
     <div key={"post" + post._id} id={post._id} className="postCard">
       <div className="postCover">
@@ -44,10 +44,8 @@ export default function PostCard({ post, setError, isLoggedIn}) {
         <div className="post-details">
           <span>
             {post.commentsCount > 0 && post.commentsCount}
-            <IconButton sx={{ marginRight: "10px", marginLeft: "5px" }} href={`/view/${post._id}`}>
-            <CommentIcon
-              fontSize="small"
-            />
+            <IconButton sx={{ marginLeft: "5px" }} href={`/view/${post._id}`}>
+              <CommentIcon fontSize="small" />
             </IconButton>
           </span>
           <Suspense
@@ -58,7 +56,7 @@ export default function PostCard({ post, setError, isLoggedIn}) {
             }
           >
             <div className="card-likes">
-              <Likes post={post} setError={setError} isLoggedIn={isLoggedIn}/>
+              <Likes post={post} setError={setError} isLoggedIn={isLoggedIn} />
             </div>
           </Suspense>
         </div>

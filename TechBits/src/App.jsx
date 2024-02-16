@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useState } from "react";
 import SignUp from "./Pages/SignUp";
-import Login from "./Pages/login";
+import Login from "./Pages/Login";
 import Navbar from "./Components/Navbar";
 import Home from "./Pages/Home";
 import CreatePost from "./Pages/CreatePost";

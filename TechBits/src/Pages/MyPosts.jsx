@@ -20,7 +20,7 @@ export default function MyPosts({ isLoggedIn, setError }) {
   const navigate = useNavigate();
   function handleChange(evt, value) {
     setSearchParams({ page: value });
-    return setPages((currentPage) => {
+    setPages((currentPage) => {
       return { ...currentPage, page: value };
     });
   }

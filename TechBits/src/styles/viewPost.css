@@ -1,139 +1,138 @@
 .viewPost {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-
 .post-view {
-    width: 50%;
+  width: 50%;
 }
 
 .post-Image {
-    width: 100%;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .post-view img {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    object-position: center;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  object-position: center;
 }
 
-.post-view>h1 {
-    text-align: center;
+.post-view > h1 {
+  text-align: center;
 }
 
 .postDetails-view {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
 }
 
-.postDetails-view>span {
-    display: flex;
-    margin-right: 5px;
-    align-items: center;
-    min-width: 130px;
+.postDetails-view > span {
+  display: flex;
+  margin-right: 5px;
+  align-items: center;
+  min-width: 130px;
 }
 
 .postEditButtons {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
-.postEditButtons>button {
-    display: flex;
-    align-items: center;
+.postEditButtons > button {
+  display: flex;
+  align-items: center;
 }
 
-.postEditButtons>span {
-    margin-top: 5px;
+.postEditButtons > span {
+  margin-top: 5px;
 }
 
 .commentsWrapper {
-    align-self: flex-start;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 4%;
+  align-self: flex-start;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 4%;
 }
 
 .postComments {
-    width: 50%;
+  width: 50%;
 }
 
 .allComments {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .displayCommentsWrapper {
-    display: flex;
-    margin-top: 10px;
-    width: 100%;
-    border-bottom: 1px solid;
+  display: flex;
+  margin-top: 10px;
+  width: 100%;
+  border-bottom: 1px solid;
 }
 
 .comment {
-    margin-left: 10px;
-    margin-top: 0;
-    padding-top: 0;
+  margin-left: 10px;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .commentContent {
-    margin-top: 0;
-    padding-top: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .commentDetails {
-    margin-bottom: 2px;
-    padding-bottom: 0;
-    margin-top: 0;
-    padding-top: 0;
+  margin-bottom: 2px;
+  padding-bottom: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .commentDetails {
-    font-size: small;
+  font-size: small;
 }
 
-.commentDetails>span {
-    margin-left: 5px;
-    font-size: smaller;
+.commentDetails > span {
+  margin-left: 5px;
+  font-size: smaller;
 }
 
 .commentDelete {
-    align-self: center;
+  align-self: center;
 }
 
 .likesWrapper {
-    display: flex;
-    align-self: flex-start;
-    width: 100%;
-    justify-content: center;
-    margin-top: 10px;
+  display: flex;
+  align-self: flex-start;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .postLikes {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-.view-likes{
-    width: 50%;
+.view-likes {
+  width: 50%;
 }

@@ -9,27 +9,30 @@ export default function Banner({
   banner,
   setBanner,
 }) {
+  const delay = 1000 * 10;
+  //setting a timeout to reset notification banner and errr banners
   useEffect(() => {
     if (error) {
       if (error.logout) {
         handleLogout(isLoggedIn, setIsLoggedIn).then(() => {
           setTimeout(() => {
             setError(false);
-          }, 1000 * 60);
+          }, delay);
         });
       } else {
         setTimeout(() => {
           setError(false);
-        }, 1000 * 60);
+        }, delay);
       }
     } else if (banner) {
       setTimeout(() => {
-        setError(false);
-      }, 1000 * 60);
+        setBanner(false);
+      }, delay);
     }
   }, []);
   return (
     <>
+      {/* Banner components to display notifications */}
       {error && <Alert severity="error">{error.message}</Alert>}
       {banner.login ? (
         <Alert severity="success">{banner.login}</Alert>

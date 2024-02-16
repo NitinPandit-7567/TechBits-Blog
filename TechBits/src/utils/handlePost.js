@@ -1,3 +1,4 @@
+//function to send DELETE request to the post API with the post ID
 export async function handleDelete(evt, id) {
   evt.preventDefault();
   const response = await fetch(`http://localhost:3000/posts/${id}`, {
@@ -10,6 +11,7 @@ export async function handleDelete(evt, id) {
   return await response.json();
 }
 
+//function to send PATCH request to the post API with the formData
 export async function handleEditSubmit(evt, id, data) {
   evt.preventDefault();
   const formData = new FormData();
@@ -34,6 +36,7 @@ export async function handleEditSubmit(evt, id, data) {
   return await response.json();
 }
 
+//function to send POST request to the post API with the formData
 export async function handleCreateSubmit(evt, data) {
   evt.preventDefault();
   const formData = new FormData();
@@ -51,6 +54,7 @@ export async function handleCreateSubmit(evt, data) {
   return await response.json();
 }
 
+//function to send GET request to the post API to fetch all posts
 export async function getAllPosts(index = 1) {
   const response = await fetch(
     `http://localhost:3000/posts/all?page=${index}`,
@@ -65,6 +69,7 @@ export async function getAllPosts(index = 1) {
   return await response.json();
 }
 
+//function to send GET request to the post API to fetch user posts
 export async function getMyPosts(index = 1) {
   const response = await fetch(
     `http://localhost:3000/posts//myposts?page=${index}`,

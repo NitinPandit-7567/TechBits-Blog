@@ -20,6 +20,8 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  min-height: fit-content;
+  min-width: fit-content;
 }
 
 .postCover {
@@ -44,11 +46,13 @@
   width: 50%;
   max-height: 400px;
   padding: 1%;
-  overflow-wrap: break-word;
   color: inherit;
   row-gap: 10px;
   column-gap: 10px;
+  overflow: auto;
+  border-bottom: 1px solid;
 }
+
 
 .postContent h3 {
   text-align: center;
@@ -67,6 +71,11 @@
   justify-content: space-between;
   align-items: center;
 }
+.postContent p{
+  overflow-wrap: break-word;
+  overflow-y: hidden;
+  max-height: 265px;
+}
 
 .post-details {
   display: flex;
@@ -77,11 +86,6 @@
   flex-wrap: wrap;
 }
 
-/* .post-details span {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-} */
 
 .card-likes {
   max-width: max-content;
