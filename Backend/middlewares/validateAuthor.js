@@ -6,9 +6,9 @@ const AppError = require('../utils/AppError.js')
 module.exports = async function (req, res, next) {
     if (req.session.user_id) {
         const { id } = req.params;
-        const url = req.originalUrl.split('/');
+        const url = req.originalUrl.split('/');             //splliting the URL to get route information
         if (req.session.user_id) {
-            if (url[url.length - 2] === 'comments') {
+            if (url[url.length - 2] === 'comments') {                       //if Comments route, check if user is author of comment
                 const { c_id } = req.params;
                 const comment = await Comments.findById(c_id).catch((err) => { return next(err) })
                 if (comment) {
@@ -24,9 +24,9 @@ module.exports = async function (req, res, next) {
                     return next(new AppError(404, 'Not Found'))
                 }
             }
-            else if (url[url.length - 2] === 'likes') {
+            else if (url[url.length - 2] === 'likes') {                 //if likes route, check if user is author of like
                 const { l_id } = req.params;
-                const like = await Likes.findById(l_id).catch((err) => { return next(err) })
+                const like = await Likes.findById(l_id).catch((err) => { return next(err) }) 
                 if (like) {
                     if (req.session.user_id === like.author._id.toString()) {
                         return next()
@@ -41,7 +41,7 @@ module.exports = async function (req, res, next) {
                 }
             }
             else {
-                const post = await Posts.findById(id).catch((err) => { return next(err) });
+                const post = await Posts.findById(id).catch((err) => { return next(err) });         ///if likes post, check if user is author of post
                 if (post) {
                     if (req.session.user_id === post.author._id.toString()) {
                         return next()

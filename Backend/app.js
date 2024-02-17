@@ -21,13 +21,14 @@ app.use(session({
     secret: secret,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 5 * 60 * 60 * 1000 }
+    cookie: { maxAge: 5 * 60 * 60 * 1000 }       //setting session cookie age to 5 hours
 }))
 app.use(cors({
     origin: clntURL,
     credentials: true
 }))
 
+//Mounting router middlewares
 app.use('/likes', likeRouter)
 app.use('/comments', commentRouter)
 app.use('/posts', postRouter)
@@ -35,9 +36,11 @@ app.use('/user', userRouter)
 app.get('*', (req, res, next) => {
     return next(404, 'Not found!')
 })
+
+//Error handling middleware
 app.use((err, req, res, next) => {
     let { status = 500, message = 'Internal server error' } = err;
-    if (err.name === 'ValidationError') {
+    if (err.name === 'ValidationError') {                                     //Handling mongoose validation errors
         status = 400;
         const messages = Object.values(err.errors).map(val => val.message)
         message = messages[0]
@@ -45,11 +48,11 @@ app.use((err, req, res, next) => {
             message = 'Invalid/Incomplete Data';
         }
     }
-    else if (err.name === 'CastError') {
+    else if (err.name === 'CastError') {                                    //Handling mongoose cast errors
         message = 'Not Found';
         status = 404
     }
-    else if (err.code === 11000) {
+    else if (err.code === 11000) {                                         //Handling mongoose duplicate key errors
         message = 'Duplicate Key Error';
         status = 400;
     }
