@@ -23,8 +23,9 @@ export async function handleSignUp(evt, formData, setIsLoading, setError, setIsL
     //if no error, set userData and isLoggedin to true
     setUserData(res);
     localStorage.setItem("isLoggedIn", true);
-    setIsLoggedIn(true)
+    setIsLoggedIn(true);
     setIsLoading(false);
+    setError(false);
     return "/";
   } else {
     setIsLoading(false);
