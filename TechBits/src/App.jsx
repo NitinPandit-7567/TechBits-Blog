@@ -10,7 +10,7 @@ import CreatePost from "./Pages/CreatePost";
 import EditPost from "./Pages/EditPost";
 import ViewPost from "./Pages/ViewPost";
 import MyPosts from "./Pages/MyPosts";
-
+import ErrorPage from "./Pages/ErrorPage";
 export default function App() {
   const [mode, setMode] = useState(
     localStorage.getItem("theme") !== null
@@ -88,6 +88,10 @@ export default function App() {
     {
       path: "/myposts",
       element: <MyPosts isLoggedIn={isLoggedIn} setError={setError} />,
+    },
+    {
+      path: "*",
+      element: <ErrorPage />,
     },
   ]);
   return (
