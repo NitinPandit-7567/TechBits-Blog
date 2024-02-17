@@ -29,18 +29,21 @@ const unlinkImage = function (image) {
 };
 
 module.exports.allPosts = wrapAsync(async (req, res, next) => {
-  const page = req.query.page || 1;
+  let page = (req.query.page>0 ? req.query.page : 0) || 1;
   const resultsPerPage = req.query.size || 5;
   const total = await Posts.countDocuments();
   const pages = Math.ceil(total / resultsPerPage);
+  if( page>pages){
+    page=pages;
+  }
   let posts = await Posts.find(
     { status: "published" },
     { content: 0, updatedAt: 0, status: 0 }
   )
     .sort({ createdAt: "descending" })
     .lean()
-    .limit(resultsPerPage)
     .skip((page - 1) * resultsPerPage)
+    .limit(resultsPerPage)
     .populate({ path: "author", select: { _id: 1, username: 1 } });
   if (posts && posts.length > 0) {
     for (let i of posts) {
@@ -52,18 +55,21 @@ module.exports.allPosts = wrapAsync(async (req, res, next) => {
 });
 
 module.exports.myPosts = wrapAsync(async (req, res, next) => {
-  const page = req.query.page || 1;
+  let page = (req.query.page>0 ? req.query.page : 1) || 1;
   const resultsPerPage = req.query.size || 5;
   const total = await Posts.countDocuments({author: { _id: req.session.user_id }});
   const pages = Math.ceil(total / resultsPerPage);
+  if(page>pages){
+    page=pages;
+  }
   let posts = await Posts.find(
     { author: { _id: req.session.user_id } },
     { content: 0 }
   )
     .sort({ createdAt: "descending" })
     .lean()
-    .limit(resultsPerPage)
     .skip((page - 1) * resultsPerPage)
+    .limit(resultsPerPage)
     .populate({ path: "author", select: { _id: 1, username: 1 } });
   for (let i of posts) {
     const comments = await Comments.find({ post: { _id: i._id } });
