@@ -54,7 +54,7 @@ module.exports.allPosts = wrapAsync(async (req, res, next) => {
 module.exports.myPosts = wrapAsync(async (req, res, next) => {
   const page = req.query.page || 1;
   const resultsPerPage = req.query.size || 5;
-  const total = await Posts.countDocuments();
+  const total = await Posts.countDocuments({author: { _id: req.session.user_id }});
   const pages = Math.ceil(total / resultsPerPage);
   let posts = await Posts.find(
     { author: { _id: req.session.user_id } },

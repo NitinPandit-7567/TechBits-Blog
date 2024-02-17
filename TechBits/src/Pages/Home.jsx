@@ -42,23 +42,27 @@ export default function Home({ setError, isLoggedIn }) {
             <CircularProgress />
           </div>
         ) : data && data.posts.length > 0 ? (
-          <div className="allPosts">
-            {data.posts.map((el) => {
-              return (
-                <PostCard
-                  key={el._id}
-                  post={el}
-                  setError={setError}
-                  isLoggedIn={isLoggedIn}
-                />
-              );
-            })}
-            <Pagination
-              count={pages.totalPages}
-              page={pages.page}
-              onChange={handleChange}
-            />
-          </div>
+          <>
+            <div className="allPosts">
+              {data.posts.map((el) => {
+                return (
+                  <PostCard
+                    key={el._id}
+                    post={el}
+                    setError={setError}
+                    isLoggedIn={isLoggedIn}
+                  />
+                );
+              })}
+            </div>
+            <div className="pagination">
+              <Pagination
+                count={pages.totalPages}
+                page={pages.page}
+                onChange={handleChange}
+              />
+            </div>
+          </>
         ) : (
           <div className="noPosts">
             <h3>

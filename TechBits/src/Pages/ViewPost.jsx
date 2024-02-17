@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import convertDate from "../utils/convertDate";
 import LinearProgress from "@mui/material/LinearProgress";
-import "../styles/ViewPost.css";
+import "../styles/viewPost.css";
 import errorHandler from "../utils/errorHandler";
 export default function ViewPost({ isLoggedIn, setError, setBanner }) {
   const { id } = useParams();
